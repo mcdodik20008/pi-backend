@@ -39,3 +39,13 @@ create table book_cover
     constraint PK_bookcover primary key (id),
     constraint FK_bookcover_book foreign key (book_id) references book
 );
+
+--changeset author:kaspshitskii-12-09-add-book-subject
+create table book_subject
+(
+    id int8,
+    subject varchar(400),
+    book_id varchar(128),
+    constraint PK_booksubject primary key (id),
+    constraint FK_booksubject_book foreign key (book_id) references book
+);
