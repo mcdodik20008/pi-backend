@@ -16,7 +16,7 @@ public class Author {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "author_name", nullable = false)
     private String name;
 
     @Column(name = "bio")

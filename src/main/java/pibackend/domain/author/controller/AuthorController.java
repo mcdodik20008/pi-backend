@@ -1,10 +1,8 @@
 package pibackend.domain.author.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.service.AuthorService;
 
@@ -19,8 +17,30 @@ public class AuthorController {
     private final AuthorService service;
 
     @GetMapping
-    public List<AuthorViewReadOne> getList() {
+    public List<AuthorViewReadList> getList() {
         return service.getList();
+    }
+
+    @GetMapping("/{id}")
+    public AuthorViewReadOne getOne(String id) {
+        return service.getOne(id);
+    }
+
+    @PostMapping
+    public AuthorViewReadOne create(AuthorViewReadList view) {
+        String id = service.create(view);
+        return service.getOne(id);
+    }
+
+    @PutMapping("/{id}")
+    public AuthorViewReadOne update(String id, AuthorViewReadList view) {
+        service.update(id, view);
+        return service.getOne(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 
 }
