@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pibackend.domain.author.model.view.AuthorView;
+import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.service.AuthorService;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class AuthorController {
     private final AuthorService service;
 
     @GetMapping
-    public List<AuthorView> getList() {
+    public List<AuthorViewReadOne> getList() {
         return service.getList();
     }
 

@@ -3,7 +3,7 @@ package pibackend.domain.book.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pibackend.domain.book.model.mapper.BookMapper;
-import pibackend.domain.book.model.view.BookView;
+import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.repository.BookRepository;
 
 import javax.transaction.Transactional;
@@ -18,9 +18,9 @@ public class BookService {
 
     private final BookMapper mapper;
 
-    public List<BookView> getList() {
+    public List<BookViewReadList> getList() {
         return repository.findAll().stream()
-                .map(mapper::toView)
+                .map(mapper::toViewReadList)
                 .toList();
     }
 }

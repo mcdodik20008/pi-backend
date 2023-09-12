@@ -3,7 +3,7 @@ package pibackend.domain.author.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pibackend.domain.author.model.mapper.AuthorMapper;
-import pibackend.domain.author.model.view.AuthorView;
+import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.repository.AuthorRepository;
 
 import javax.transaction.Transactional;
@@ -18,7 +18,7 @@ public class AuthorService {
 
     private final AuthorMapper mapper;
 
-    public List<AuthorView> getList() {
+    public List<AuthorViewReadOne> getList() {
         return repository.findAll().stream()
                 .map(mapper::toView)
                 .toList();

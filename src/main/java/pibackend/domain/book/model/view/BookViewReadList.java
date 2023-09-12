@@ -1,11 +1,11 @@
-package pibackend.domain.author.model.view;
+package pibackend.domain.book.model.view;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthorView {
+public class BookViewReadList {
 
     private String uuid;
 

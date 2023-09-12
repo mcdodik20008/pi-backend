@@ -2,13 +2,15 @@ package pibackend.domain.book.model.mapper;
 
 import org.mapstruct.Mapper;
 import pibackend.domain.book.model.entity.Book;
-import pibackend.domain.book.model.view.BookView;
+import pibackend.domain.book.model.view.BookViewReadList;
 
 @Mapper
 public interface BookMapper {
 
-    BookView toView(Book entity);
+    BookViewReadList toViewReadOne(Book entity);
 
-    Book toEntity(BookView view);
+    BookViewReadList toViewReadList(Book entity);
+
+    Book toEntity(BookViewReadList view);
 
 }
