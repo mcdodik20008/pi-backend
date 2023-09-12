@@ -1,25 +1,25 @@
-package pibackend.domain.book.controller;
+package pibackend.domain.author.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pibackend.domain.book.model.view.BookView;
-import pibackend.domain.book.service.BookService;
+import pibackend.domain.author.model.view.AuthorView;
+import pibackend.domain.author.service.AuthorService;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/book", produces = "application/json")
-public class BookController {
+@RequestMapping(value = "/author", produces = "application/json")
+public class AuthorController {
 
-    private final BookService service;
+    private final AuthorService service;
 
     @GetMapping
-    public List<BookView> getList() {
+    public List<AuthorView> getList() {
         return service.getList();
     }
 

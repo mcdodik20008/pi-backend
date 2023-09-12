@@ -2,8 +2,10 @@ package pibackend.domain.book.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import pibackend.domain.author.model.entity.Author;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,5 +27,11 @@ public class Book {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "book_author",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")})
+    private List<Author> authors;
 
 }
