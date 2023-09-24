@@ -1,5 +1,5 @@
 
-## Требования:
+## Требования
 - [JDK 17](https://adoptium.net/temurin/releases/?arch=x64&package=jdk)
 - [Docker Compose](https://docs.docker.com/compose/install/) (входит в [Docker Desktop](https://www.docker.com/products/docker-desktop/))
 
@@ -33,7 +33,7 @@ $ docker-compose up -d
 
 ### Из командной строки
 
-1. Убедитесь, что **Java** доступна из командой строки
+1. Убедитесь, что **Java** доступна из командной строки
 ```console
 $ java --version
 
