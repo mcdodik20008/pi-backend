@@ -2,8 +2,11 @@ package pibackend.domain.book.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.book.model.mapper.BookMapper;
 import pibackend.domain.book.model.view.BookViewReadList;
+import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.repository.BookRepository;
 
 import javax.transaction.Transactional;
@@ -22,5 +25,26 @@ public class BookService {
         return repository.findAll().stream()
                 .map(mapper::toViewReadList)
                 .toList();
+    }
+
+    public BookViewReadOne getOne(String id) {
+        return mapper.toViewReadOne(getObject(id));
+    }
+
+    private Book getObject(String id) {
+        return repository.findById(id)
+        .orElseThrow(() ->
+        new RuntimeException("Не найдена книга с идентификатором: " + id));
+    }
+
+    public String create(BookViewReadList view) {
+        Book entity = mapper.toEntity(view);
+        return repository.save(entity).getUuid();
+    }
+
+    public void update(String id, BookViewReadList view) {
+        Book entity = mapper.toEntity(getObject(id), view);
+        entity.setUuid(id);
+        repository.save(entity).getUuid();
     }
 }
