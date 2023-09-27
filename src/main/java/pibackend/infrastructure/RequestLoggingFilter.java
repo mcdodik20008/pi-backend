@@ -28,8 +28,9 @@ public class RequestLoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         String clientAuthCode = req.getHeader("ДоговоримсяКакой");
         String servletPath = req.getServletPath();
+        boolean swagger = servletPath.equals("/swagger-ui/index.html") || servletPath.contains("v3");
         boolean loginOrLogout = servletPath.equals("login") || servletPath.equals("logout");
-        if (loginOrLogout) {
+        if (loginOrLogout || swagger) {
             // ЧИЛИМ!!!! (Регаем катку в тарков)
         } else if (clientAuthCode != null && !clientAuthCode.isBlank()) {
             // Проверяем закончилась ли сессия
