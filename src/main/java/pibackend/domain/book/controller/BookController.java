@@ -1,12 +1,7 @@
 package pibackend.domain.book.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.service.BookService;
@@ -43,5 +38,8 @@ public class BookController {
         return service.getOne(id);
     }
 
-    
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        service.delete(id);
+    }
 }

@@ -33,8 +33,8 @@ public class BookService {
 
     private Book getObject(String id) {
         return repository.findById(id)
-        .orElseThrow(() ->
-        new RuntimeException("Не найдена книга с идентификатором: " + id));
+            .orElseThrow(() ->
+                new RuntimeException("Не найдена книга с идентификатором: " + id));
     }
 
     public String create(BookViewReadList view) {
@@ -46,5 +46,10 @@ public class BookService {
         Book entity = mapper.toEntity(getObject(id), view);
         entity.setUuid(id);
         repository.save(entity).getUuid();
+    }
+
+    public void delete(String id) {
+        getObject(id);
+        repository.deleteById(id);
     }
 }
