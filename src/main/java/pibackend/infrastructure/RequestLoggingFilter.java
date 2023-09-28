@@ -40,7 +40,7 @@ public class RequestLoggingFilter implements Filter {
             }
         } else {
             // Если чел не логинился, то домой его!!!!
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Доступ запрешен. Авторизируйтесь");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Доступ запрещен. Авторизируйтесь");
         }
 
         // если мы дошли до сюда, то пользователю можно пытаться делать что-то большее...
