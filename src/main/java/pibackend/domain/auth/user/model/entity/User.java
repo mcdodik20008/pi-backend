@@ -3,7 +3,11 @@ package pibackend.domain.auth.user.model.entity;
 import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.auth.role.model.entity.Role;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Getter
