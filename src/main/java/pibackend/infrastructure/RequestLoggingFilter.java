@@ -29,7 +29,7 @@ public class RequestLoggingFilter implements Filter {
         String clientAuthCode = req.getHeader("auth-token");
         String servletPath = req.getServletPath();
         boolean swagger = servletPath.equals("/swagger-ui/index.html") || servletPath.equals("/swagger-ui.html") || servletPath.contains("v3");
-        boolean loginOrLogout = servletPath.equals("/login") || servletPath.equals("/logout");
+        boolean loginOrLogout = servletPath.equals("/auth") || servletPath.equals("/authout");
         if (loginOrLogout || swagger) {
             // ЧИЛИМ!!!! (Регаем катку в тарков)
         } else if (clientAuthCode != null && !clientAuthCode.isBlank()) {
