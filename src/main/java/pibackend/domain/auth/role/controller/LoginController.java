@@ -15,14 +15,14 @@ public class LoginController {
 
     private final SecurityContext context;
 
-    @PostMapping("/auth")
+    @PostMapping("/login")
     public String login(String login, String password) {
         String uuid = UUID.randomUUID().toString();
         context.addLoginUser(uuid, new SecurityProperties.User());
         return uuid;
     }
 
-    @GetMapping("/authout")
+    @GetMapping("/logout")
     public void logout(String userCode) {
         context.removeUser(userCode);
     }
