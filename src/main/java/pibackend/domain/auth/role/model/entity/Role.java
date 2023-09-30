@@ -23,7 +23,7 @@ public class Role {
     private List<Privilege> privileges;
 
     @ManyToOne
-    @JoinColumn(name = "user_account_id", foreignKey = @ForeignKey(name = "FK_user_account  "))
+    @JoinColumn(name = "user_account_id", foreignKey = @ForeignKey(name = "FK_user_account"))
     private User user;
 
 }
