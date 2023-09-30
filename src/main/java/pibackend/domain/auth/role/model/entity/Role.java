@@ -22,10 +22,7 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<Privilege> privileges;
 
-    @ManyToMany
-    @JoinTable(name = "user_account_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_account_id"))
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
 }
