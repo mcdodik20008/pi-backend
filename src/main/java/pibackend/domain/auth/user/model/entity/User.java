@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.auth.role.model.entity.Role;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -25,7 +22,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany
+    @JoinTable(name = "user_account_role",
+            joinColumns = @JoinColumn(name = "user_account_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
-
 }

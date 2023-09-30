@@ -36,15 +36,15 @@ public class SecurityContext {
         return false;
     }
 
-    public void addLoginUser(String clientAuthCode, SecurityProperties.User user){
-        if (authUsers.containsKey(clientAuthCode)){
+    public void addLoginUser(String clientAuthCode, SecurityProperties.User user) {
+        if (authUsers.containsKey(clientAuthCode)) {
             authUsers.put(clientAuthCode, Pair.of(LocalDate.now(), user));
-        } else{
+        } else {
             authUsers.replace(clientAuthCode, Pair.of(LocalDate.now(), user));
         }
     }
 
-    public void removeUser(String clientAuthCode){
+    public void removeUser(String clientAuthCode) {
         authUsers.remove(clientAuthCode);
     }
 }

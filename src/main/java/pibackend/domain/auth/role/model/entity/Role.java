@@ -22,8 +22,10 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<Privilege> privileges;
 
-    @ManyToOne
-    @JoinColumn(name = "user_account_id", foreignKey = @ForeignKey(name = "FK_user_account"))
-    private User user;
+    @ManyToMany
+    @JoinTable(name = "user_account_role",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_account_id"))
+    private List<User> users;
 
 }

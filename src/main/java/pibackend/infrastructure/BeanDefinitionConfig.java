@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class BeanDefinitionConfig {
 
     @Bean
-    public MapperBeanDefinitionRegistrar mapperBeanDefinitionRegistrar(){
+    public MapperBeanDefinitionRegistrar mapperBeanDefinitionRegistrar() {
         return new MapperBeanDefinitionRegistrar();
     }
 }
