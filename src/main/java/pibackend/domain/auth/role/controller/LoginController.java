@@ -1,5 +1,6 @@
 package pibackend.domain.auth.role.controller;
 
+import com.google.common.hash.Hashing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.repository.UserRepository;
 import pibackend.infrastructure.SecurityContext;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,7 +27,10 @@ public class LoginController {
     @PostMapping("/login")
     public String login(String login, String password) {
         Optional<User> user = userRepository.findById(login);
-        if (user.isEmpty() || !user.get().getPassword().equals(password)){
+        if (user.isEmpty()
+                || Hashing.sha256()
+                .hashString(password, StandardCharsets.UTF_8)
+                .toString().equals(user.get().getPassword())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ошибка авторизации. Проверьте логин или пароль");
         }
 
