@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class UserView {
 
-    private Long id;
+    private String login;
 
     private String username;
 
