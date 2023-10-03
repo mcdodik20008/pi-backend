@@ -37,7 +37,7 @@ public class SecurityContext {
     }
 
     public void addLoginUser(String clientAuthCode, SecurityProperties.User user) {
-        if (authUsers.containsKey(clientAuthCode)) {
+        if (!authUsers.containsKey(clientAuthCode)) {
             authUsers.put(clientAuthCode, Pair.of(LocalDate.now(), user));
         } else {
             authUsers.replace(clientAuthCode, Pair.of(LocalDate.now(), user));
