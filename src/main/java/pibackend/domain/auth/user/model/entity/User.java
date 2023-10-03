@@ -13,13 +13,13 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "login", nullable = false)
+    @Column(name = "user_login", nullable = false)
     private String login;
 
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "user_password", nullable = false)
     private String password;
 
     @ManyToMany
