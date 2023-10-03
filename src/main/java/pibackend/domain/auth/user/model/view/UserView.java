@@ -9,7 +9,11 @@ public class UserView {
 
     private String login;
 
-    private String username;
+    private String firstName;
+
+    private String secondName;
+
+    private String lastName;
 
     private String password;
 

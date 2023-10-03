@@ -1,7 +1,9 @@
 package pibackend.domain.auth.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.service.UserService;
 
@@ -14,7 +16,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/registration")
-    public Boolean registration(@RequestBody UserView user) {
+    public boolean registration(@RequestBody UserView user) {
         return service.registration(user);
     }
 

@@ -6,4 +6,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import pibackend.domain.auth.user.model.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String>, QuerydslPredicateExecutor<User> {
+    boolean existsByLogin(String login);
 }

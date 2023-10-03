@@ -16,8 +16,14 @@ public class User {
     @Column(name = "user_login", nullable = false)
     private String login;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "user_first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "user_second_name", nullable = false)
+    private String secondName;
+
+    @Column(name = "user_last_name", nullable = false)
+    private String lastName;
 
     @Column(name = "user_password", nullable = false)
     private String password;
@@ -27,4 +33,5 @@ public class User {
             joinColumns = @JoinColumn(name = "user_account_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
 }
