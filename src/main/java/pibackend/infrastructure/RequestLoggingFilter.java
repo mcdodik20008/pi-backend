@@ -1,9 +1,7 @@
 package pibackend.infrastructure;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -38,19 +36,21 @@ public class RequestLoggingFilter implements Filter {
         String servletPath = req.getServletPath();
         String method = req.getMethod();
         String clientAuthCode = req.getHeader("Auth-Token");
-        List<String> exceptionPaths = Arrays.asList("/swagger-ui/index.html", "/swagger-ui.html", "/login", "/logout", "/user/registration");
-        if(method.equals("OPTIONS") || exceptionPaths.contains(servletPath) || servletPath.contains("v3")) {
+        List<String> exceptionPaths = Arrays.asList("/login", "/logout", "/user/registration");
+        if(method.equals("OPTIONS") || servletPath.contains("/swagger-ui") || exceptionPaths.contains(servletPath) || servletPath.contains("v3")) {
             // ЧИЛИМ!!!! (Регаем катку в тарков)
         }
         else if (clientAuthCode != null && !clientAuthCode.isBlank()) {
             // Проверяем закончилась ли сессия
             Boolean sessionIsValid = securityContext.userIsLogin(clientAuthCode);
             if (!sessionIsValid) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Время сессии вышло, авторизируйтесь повторно");
+                res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Время сессии вышло, авторизируйтесь повторно");
+                return;
             }
         } else {
             // Если чел не логинился, то домой его!!!!
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Доступ запрещен. Авторизируйтесь");
+            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Доступ запрещен. Авторизируйтесь");
+            return;
         }
         // если мы дошли до сюда, то пользователю можно пытаться делать что-то большее...
         chain.doFilter(request, response);
