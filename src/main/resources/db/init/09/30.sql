@@ -1,6 +1,6 @@
 create table user_account
 (
-    user_login       varchar(255) UNIQUE,
+    user_login       varchar(255),
     user_password    varchar(64),
     user_first_name  varchar(255),
     user_second_name varchar(255),
