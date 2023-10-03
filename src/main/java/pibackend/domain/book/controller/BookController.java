@@ -22,7 +22,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public BookViewReadOne getOne(String id) {
+    public BookViewReadOne getOne(@PathVariable String id) {
         return service.getOne(id);
     }
 
@@ -33,7 +33,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public BookViewReadOne update(String id, BookViewReadList view) {
+    public BookViewReadOne update(@PathVariable String id, BookViewReadList view) {
         service.update(id, view);
         return service.getOne(id);
     }

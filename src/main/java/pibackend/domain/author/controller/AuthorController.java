@@ -22,7 +22,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public AuthorViewReadOne getOne(String id) {
+    public AuthorViewReadOne getOne(@PathVariable String id) {
         return service.getOne(id);
     }
 
@@ -33,7 +33,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public AuthorViewReadOne update(String id, AuthorViewReadList view) {
+    public AuthorViewReadOne update(@PathVariable String id, AuthorViewReadList view) {
         service.update(id, view);
         return service.getOne(id);
     }
