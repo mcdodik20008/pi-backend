@@ -18,7 +18,7 @@ import java.util.UUID;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "", produces = "application/json")
+@RequestMapping(value = "", produces = "text/plain")
 public class LoginController {
 
     private final SecurityContext context;

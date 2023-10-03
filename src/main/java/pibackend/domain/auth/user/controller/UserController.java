@@ -10,13 +10,13 @@ import pibackend.domain.auth.user.service.UserService;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/user", produces = "text/plain")
+@RequestMapping(value = "/user", produces = "application/json")
 public class UserController {
 
     private final UserService service;
 
     @PostMapping("/registration")
-    public boolean registration(@RequestBody UserView user) {
+    public Boolean registration(@RequestBody UserView user) {
         return service.registration(user);
     }
 
