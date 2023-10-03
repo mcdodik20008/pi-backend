@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import pibackend.domain.auth.role.model.view.LoginView;
 import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.repository.UserRepository;
 import pibackend.infrastructure.SecurityContext;
@@ -25,11 +26,11 @@ public class LoginController {
     private final UserRepository userRepository;
 
     @PostMapping("/login")
-    public String login(String login, String password) {
-        Optional<User> user = userRepository.findById(login);
+    public String login(@RequestBody LoginView auth) {
+        Optional<User> user = userRepository.findById(auth.getLogin());
         if (user.isEmpty()
                 || !Hashing.sha256()
-                .hashString(password, StandardCharsets.UTF_8)
+                .hashString(auth.getPassword(), StandardCharsets.UTF_8)
                 .toString().equals(user.get().getPassword())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ошибка авторизации. Проверьте логин или пароль");
         }

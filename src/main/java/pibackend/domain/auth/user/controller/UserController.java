@@ -10,7 +10,7 @@ import pibackend.domain.auth.user.service.UserService;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/user", produces = "application/json")
+@RequestMapping(value = "/user", produces = "text/plain")
 public class UserController {
 
     private final UserService service;
