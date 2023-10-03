@@ -13,8 +13,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "login", nullable = false)
+    private String login;
 
     @Column(name = "username", nullable = false)
     private String username;

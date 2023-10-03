@@ -2,7 +2,6 @@ package pibackend.domain.auth.role.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import pibackend.domain.auth.user.model.entity.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,10 +18,10 @@ public class Role {
     @Column(name = "privilege_name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Privilege> privileges;
-
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "roles_privilege",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "privilege_id")})
+    private List<Privilege> roles;
 
 }
