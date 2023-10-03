@@ -28,7 +28,7 @@ public class LoginController {
     public String login(String login, String password) {
         Optional<User> user = userRepository.findById(login);
         if (user.isEmpty()
-                || Hashing.sha256()
+                || !Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString().equals(user.get().getPassword())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ошибка авторизации. Проверьте логин или пароль");
