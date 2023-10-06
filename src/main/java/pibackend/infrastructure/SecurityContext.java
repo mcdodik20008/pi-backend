@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 import pibackend.domain.auth.user.model.entity.User;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,18 +16,18 @@ import java.util.Map;
 @Component
 public class SecurityContext {
 
-    private final Map<String, Pair<LocalDate, User>> authUsers = new HashMap<>();
+    private final Map<String, Pair<LocalDateTime, User>> authUsers = new HashMap<>();
 
     private static User currentUser;
 
     public Boolean userIsLogin(String clientAuthCode) {
         // Логинился ли у нас пользователь
         if (authUsers.containsKey(clientAuthCode)) {
-            Pair<LocalDate, User> pair = authUsers.get(clientAuthCode);
-            Duration duration = Duration.between(pair.getFirst(), LocalDate.now());
-            if (duration.get(ChronoUnit.MINUTES) < 30) {
+            Pair<LocalDateTime, User> pair = authUsers.get(clientAuthCode);
+            Duration duration = Duration.between(pair.getFirst(), LocalDateTime.now());
+            if (duration.toMinutes() < 30) {
                 currentUser = pair.getSecond();
-                authUsers.replace(clientAuthCode, Pair.of(LocalDate.now(), pair.getSecond()));
+                authUsers.replace(clientAuthCode, Pair.of(LocalDateTime.now(), pair.getSecond()));
                 return true;
             }
             authUsers.remove(clientAuthCode);
@@ -38,9 +37,9 @@ public class SecurityContext {
 
     public void addLoginUser(String clientAuthCode, User user) {
         if (!authUsers.containsKey(clientAuthCode)) {
-            authUsers.put(clientAuthCode, Pair.of(LocalDate.now(), user));
+            authUsers.put(clientAuthCode, Pair.of(LocalDateTime.now(), user));
         } else {
-            authUsers.replace(clientAuthCode, Pair.of(LocalDate.now(), user));
+            authUsers.replace(clientAuthCode, Pair.of(LocalDateTime.now(), user));
         }
     }
 
