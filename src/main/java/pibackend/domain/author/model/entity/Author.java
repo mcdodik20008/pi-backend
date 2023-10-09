@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.book.model.entity.Book;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
