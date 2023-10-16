@@ -3,11 +3,13 @@ package pibackend.domain.book.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.book.model.mapper.BookMapper;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.repository.BookRepository;
+import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BookService {
+public class BookService extends PrivilegeService<Book, String>  {
 
     private final BookRepository repository;
 
@@ -51,5 +53,10 @@ public class BookService {
     public void delete(String id) {
         getObject(id);
         repository.deleteById(id);
+    }
+
+    @Override
+    public Registry getRegistry() {
+        return Registry.BOOK;
     }
 }

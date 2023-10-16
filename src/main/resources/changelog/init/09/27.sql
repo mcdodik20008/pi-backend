@@ -3,6 +3,7 @@ create table role
 (
     id        int8,
     role_name varchar(400) not null,
+
     constraint PK_role primary key (id)
 );
 

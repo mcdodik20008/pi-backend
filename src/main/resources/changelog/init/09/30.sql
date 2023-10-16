@@ -1,3 +1,4 @@
+--changeset author:kaspshitskii-27-09-add-user
 create table user_account
 (
     user_login       varchar(255),

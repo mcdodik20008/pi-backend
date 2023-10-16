@@ -22,6 +22,6 @@ public class Role {
     @JoinTable(name = "roles_privilege",
             joinColumns = {@JoinColumn(name = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "privilege_id")})
-    private List<Privilege> roles;
+    private List<Privilege> privileges;
 
 }
