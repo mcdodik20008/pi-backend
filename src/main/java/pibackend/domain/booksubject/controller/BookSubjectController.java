@@ -1,6 +1,8 @@
 package pibackend.domain.booksubject.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import pibackend.domain.booksubject.model.view.BookSubjectView;
@@ -17,8 +19,8 @@ public class BookSubjectController {
     private final BookSubjectService service;
 
     @GetMapping
-    public List<BookSubjectView> getList() {
-        return service.getList();
+    public Page<BookSubjectView> getList(Pageable pageable) {
+        return service.getList(pageable);
     }
 
     @GetMapping("/{id}")

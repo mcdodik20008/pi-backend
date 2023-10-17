@@ -1,12 +1,12 @@
 package pibackend.domain.book.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.service.BookService;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -17,8 +17,8 @@ public class BookController {
     private final BookService service;
 
     @GetMapping
-    public List<BookViewReadList> getList() {
-        return service.getList();
+    public Page<BookViewReadList> getPage(Pageable pageable) {
+        return service.getPage(pageable);
     }
 
     @GetMapping("/{id}")

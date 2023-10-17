@@ -1,8 +1,9 @@
 package pibackend.domain.book.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.book.model.mapper.BookMapper;
@@ -12,7 +13,6 @@ import pibackend.domain.book.repository.BookRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -23,10 +23,8 @@ public class BookService extends PrivilegeService<Book, String>  {
 
     private final BookMapper mapper;
 
-    public List<BookViewReadList> getList() {
-        return repository.findAll().stream()
-                .map(mapper::toViewReadList)
-                .toList();
+    public Page<BookViewReadList> getPage(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toViewReadList);
     }
 
     public BookViewReadOne getOne(String id) {
@@ -47,7 +45,7 @@ public class BookService extends PrivilegeService<Book, String>  {
     public void update(String id, BookViewReadList view) {
         Book entity = mapper.toEntity(getObject(id), view);
         entity.setUuid(id);
-        repository.save(entity).getUuid();
+        repository.save(entity);
     }
 
     public void delete(String id) {
@@ -59,4 +57,5 @@ public class BookService extends PrivilegeService<Book, String>  {
     public Registry getRegistry() {
         return Registry.BOOK;
     }
+
 }

@@ -1,15 +1,15 @@
 package pibackend.domain.booksubject.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import pibackend.domain.booksubject.model.entity.BookSubject;
 import pibackend.domain.booksubject.model.mapper.BookSubjectMapper;
 import pibackend.domain.booksubject.model.view.BookSubjectView;
 import pibackend.domain.booksubject.repository.BookSubjectRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -20,10 +20,8 @@ public class BookSubjectService {
 
     private final BookSubjectMapper mapper;
 
-    public List<BookSubjectView> getList() {
-        return repository.findAll().stream()
-                .map(mapper::toView)
-                .toList();
+    public Page<BookSubjectView> getList(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toView);
     }
 
     public BookSubjectView getOne(Long id) {
@@ -44,7 +42,7 @@ public class BookSubjectService {
     public void update(Long id, BookSubjectView view) {
         BookSubject entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);
-        repository.save(entity).getId();
+        repository.save(entity);
     }
 
     public void delete(Long id) {
