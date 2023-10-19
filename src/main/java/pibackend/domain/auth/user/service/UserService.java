@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.model.mapper.UserMapper;
+import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.repository.UserRepository;
 
@@ -29,14 +30,14 @@ public class UserService {
                 .map(mapper::toView);
     }
 
-    public UserView getOne(String id) {
-        return mapper.toView(getObject(id));
+    public UserView getOne(String login) {
+        return mapper.toView(getObject(login));
     }
 
-    public User getObject(String id) {
-        return repository.findById(id)
+    public User getObject(String login) {
+        return repository.findByLogin(login)
                 .orElseThrow(() ->
-                        new RuntimeException("Не найден автор с идентификатором: " + id));
+                        new RuntimeException("Не найден пользователь с логином: " + login));
     }
 
     public String create(UserView view) {
@@ -44,15 +45,15 @@ public class UserService {
         return repository.save(entity).getLogin();
     }
 
-    public void update(String id, UserView view) {
-        User entity = mapper.toEntity(getObject(id), view);
-        entity.setLogin(id);
+    public void update(String login, UserView view) {
+        User entity = mapper.toEntity(getObject(login), view);
+        entity.setLogin(login);
         repository.save(entity);
     }
 
-    public void delete(String id) {
-        getObject(id);
-        repository.deleteById(id);
+    public void delete(String login) {
+        getObject(login);
+        repository.deleteByLogin(login);
     }
 
     public Boolean registration(UserView view) {
@@ -62,10 +63,26 @@ public class UserService {
         }
         entity.setPassword(
                 Hashing.sha256()
-                .hashString(entity.getPassword(), StandardCharsets.UTF_8)
-                .toString());
+                        .hashString(entity.getPassword(), StandardCharsets.UTF_8)
+                        .toString());
         repository.save(entity);
         return true;
     }
 
+    public Boolean changePassword(UserChangePassword view) {
+        if (view.getNewPassword().equals(view.getNewPasswordConfirmation())) {
+            var user = getObject(view.getLogin());
+            var currentPasswordFromView = Hashing.sha256().hashString(view.getCurrentPassword(), StandardCharsets.UTF_8).toString();
+            if (user.getPassword().equals(currentPasswordFromView)) {
+                var newPassword = Hashing.sha256().hashString(view.getNewPassword(), StandardCharsets.UTF_8).toString();
+                user.setPassword(newPassword);
+                repository.save(user);
+                return true;
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Неверный пароль");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Новый пароль и подтверждение не совпадают");
+        }
+    }
 }

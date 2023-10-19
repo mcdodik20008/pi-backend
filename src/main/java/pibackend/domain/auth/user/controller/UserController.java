@@ -1,9 +1,11 @@
 package pibackend.domain.auth.user.controller;
 
+import liquibase.change.Change;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.service.UserService;
 
@@ -14,14 +16,15 @@ import pibackend.domain.auth.user.service.UserService;
 public class UserController {
 
     private final UserService service;
+
     @GetMapping
     public Page<UserView> getList(Pageable pageable) {
         return service.getPage(pageable);
     }
 
-    @GetMapping("/{id}")
-    public UserView getOne(@PathVariable String id) {
-        return service.getOne(id);
+    @GetMapping("/{login}")
+    public UserView getOne(@PathVariable String login) {
+        return service.getOne(login);
     }
 
     @PostMapping("/registration")
@@ -29,16 +32,18 @@ public class UserController {
         return service.registration(user);
     }
 
+    @PatchMapping("/change_password")
+    public Boolean changePassword(@RequestBody UserChangePassword view) { return service.changePassword(view); }
 
-    @PutMapping("/{id}")
-    public UserView update(@PathVariable String id, UserView view) {
-        service.update(id, view);
-        return service.getOne(id);
+    @PutMapping("/{login}")
+    public UserView update(@PathVariable String login, UserView view) {
+        service.update(login, view);
+        return service.getOne(login);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        service.delete(id);
+    @DeleteMapping("/{login}")
+    public void delete(@PathVariable String login) {
+        service.delete(login);
     }
 
 }

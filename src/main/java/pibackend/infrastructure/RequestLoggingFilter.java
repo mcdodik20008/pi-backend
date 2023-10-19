@@ -36,7 +36,7 @@ public class RequestLoggingFilter implements Filter {
         String servletPath = req.getServletPath();
         String method = req.getMethod();
         String clientAuthCode = req.getHeader("Auth-Token");
-        List<String> exceptionPaths = Arrays.asList("/login", "/logout", "/user/registration");
+        List<String> exceptionPaths = Arrays.asList("/login", "/logout", "/user/registration", "/user/change_password");
         if(method.equals("OPTIONS") || servletPath.contains("/swagger-ui") || exceptionPaths.contains(servletPath) || servletPath.contains("v3")) {
             // ЧИЛИМ!!!! (Регаем катку в тарков)
         }
