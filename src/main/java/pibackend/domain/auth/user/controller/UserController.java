@@ -1,6 +1,5 @@
 package pibackend.domain.auth.user.controller;
 
-import liquibase.change.Change;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +32,9 @@ public class UserController {
     }
 
     @PatchMapping("/change_password")
-    public Boolean changePassword(@RequestBody UserChangePassword view) { return service.changePassword(view); }
+    public Boolean changePassword(@RequestBody UserChangePassword view) {
+        return service.changePassword(view);
+    }
 
     @PutMapping("/{login}")
     public UserView update(@PathVariable String login, UserView view) {

@@ -2,7 +2,6 @@ package pibackend.domain.auth.role.controller;
 
 import com.google.common.hash.Hashing;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;

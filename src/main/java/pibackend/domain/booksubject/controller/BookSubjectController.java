@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
 import pibackend.domain.booksubject.model.view.BookSubjectView;
 import pibackend.domain.booksubject.service.BookSubjectService;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController

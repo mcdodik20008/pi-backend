@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import pibackend.domain.bookcovers.model.entity.BookCover;
 import pibackend.domain.bookcovers.model.mapper.BookCoverMapper;
 import pibackend.domain.bookcovers.model.view.BookCoverView;
@@ -32,7 +31,7 @@ public class BookCoverService {
     private BookCover getObject(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                    new RuntimeException("Не найдена обложка с идентификатором: " + id));
+                        new RuntimeException("Не найдена обложка с идентификатором: " + id));
     }
 
     public Long create(BookCoverView view) {

@@ -31,7 +31,7 @@ public class BookSubjectService {
     private BookSubject getObject(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                    new RuntimeException("Не найдена тема книги с идентификатором: " + id));
+                        new RuntimeException("Не найдена тема книги с идентификатором: " + id));
     }
 
     public Long create(BookSubjectView view) {

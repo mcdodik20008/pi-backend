@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BookService extends PrivilegeService<Book, String>  {
+public class BookService extends PrivilegeService<Book, String> {
 
     private final BookRepository repository;
 
@@ -33,8 +33,8 @@ public class BookService extends PrivilegeService<Book, String>  {
 
     private Book getObject(String id) {
         return repository.findById(id)
-            .orElseThrow(() ->
-                new RuntimeException("Не найдена книга с идентификатором: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Не найдена книга с идентификатором: " + id));
     }
 
     public String create(BookViewReadList view) {
