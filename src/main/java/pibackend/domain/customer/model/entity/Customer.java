@@ -2,10 +2,12 @@ package pibackend.domain.customer.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import pibackend.infrastructure.StringPrefixedSequenceIdGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 
 @Getter
 @Setter
@@ -13,24 +15,32 @@ import javax.persistence.Id;
 public class Customer {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @GenericGenerator(
+            name = "book_seq",
+            strategy = "pibackend.infrastructure.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "customer_id"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "C")})
     private String id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "zip")
+    @Column(name = "zip", nullable = false)
     private String zip;
 
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
+
 }

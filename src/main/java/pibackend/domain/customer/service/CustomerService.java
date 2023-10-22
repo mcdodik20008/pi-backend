@@ -35,18 +35,18 @@ public class CustomerService {
                         new RuntimeException("Не найден клиент с идентификатором: " + id));
     }
 
-    public String create(CustomerView view) {
+    public void create(CustomerView view) {
         var entity = mapper.toEntity(view);
-        return repository.save(entity).getId();
+        repository.save(entity);
     }
 
     public void update(String id, CustomerView view) {
         var entity = mapper.toEntity(getObject(id), view);
-        repository.save(entity).getId();
+        repository.save(entity);
     }
 
     public void delete(String id) {
-        getObject(id);
         repository.deleteById(id);
     }
+
 }

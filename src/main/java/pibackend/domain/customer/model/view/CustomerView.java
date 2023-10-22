@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 public class CustomerView {
 
-    private String id;
-
     private String name;
 
     private String address;

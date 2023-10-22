@@ -26,15 +26,13 @@ public class CustomerController {
     }
 
     @PostMapping
-    public CustomerView create(CustomerView view) {
-        String id = service.create(view);
-        return service.getOne(id);
+    public void create(CustomerView view) {
+        service.create(view);
     }
 
     @PutMapping("/{id}")
-    public CustomerView update(@PathVariable String id, CustomerView view) {
+    public void update(@PathVariable String id, CustomerView view) {
         service.update(id, view);
-        return service.getOne(id);
     }
 
     @DeleteMapping("/{id}")
