@@ -15,9 +15,9 @@ import javax.persistence.*;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customerId")
     @GenericGenerator(
-            name = "book_seq",
+            name = "customerId",
             strategy = "pibackend.infrastructure.StringPrefixedSequenceIdGenerator",
             parameters = {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "customer_id"),
