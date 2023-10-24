@@ -1,12 +1,13 @@
 package pibackend.domain.author.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.service.AuthorService;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -17,8 +18,8 @@ public class AuthorController {
     private final AuthorService service;
 
     @GetMapping
-    public List<AuthorViewReadList> getList() {
-        return service.getList();
+    public Page<AuthorViewReadList> getPage(Pageable pageable) {
+        return service.getPage(pageable);
     }
 
     @GetMapping("/{id}")

@@ -17,8 +17,8 @@ public class IssueController {
     private final IssueService service;
 
     @GetMapping
-    public Page<IssueView> getList(Pageable pageable) {
-        return service.getList(pageable);
+    public Page<IssueView> getPage(Pageable pageable) {
+        return service.getPage(pageable);
     }
     
     @GetMapping("/{id}")

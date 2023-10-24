@@ -21,7 +21,7 @@ public class IssueService {
 
     private final IssueRepository repository;
 
-    public Page<IssueView> getList(Pageable pageable) {
+    public Page<IssueView> getPage(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toView);
     }
 
