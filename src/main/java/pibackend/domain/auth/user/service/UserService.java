@@ -85,4 +85,13 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Новый пароль и подтверждение не совпадают");
         }
     }
+
+    public Boolean changePasswordAdmin(UserChangePassword view) {
+            var user = getObject(view.getLogin());
+            var newPassword = Hashing.sha256().hashString(view.getNewPassword(), StandardCharsets.UTF_8).toString();
+            user.setPassword(newPassword);
+            repository.save(user);
+            return true;
+    }
+    
 }
