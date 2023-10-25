@@ -36,6 +36,11 @@ public class UserController {
         return service.changePassword(view);
     }
 
+    @PatchMapping("/change_password_admin")
+    public Boolean changePasswordAdmin(@RequestBody UserChangePassword view) {
+        return service.changePassword(view);
+    }
+
     @PutMapping("/{login}")
     public UserView update(@PathVariable String login, UserView view) {
         service.update(login, view);
