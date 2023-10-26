@@ -1,6 +1,9 @@
 package pibackend.domain.author.service;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pibackend.domain.author.model.entity.Author;
 import pibackend.domain.author.model.mapper.AuthorMapper;
@@ -9,7 +12,6 @@ import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.repository.AuthorRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -20,10 +22,8 @@ public class AuthorService {
 
     private final AuthorMapper mapper;
 
-    public List<AuthorViewReadList> getList() {
-        return repository.findAll().stream()
-                .map(mapper::toViewReadList)
-                .toList();
+    public Page<AuthorViewReadList> getPage(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toViewReadList);
     }
 
     public AuthorViewReadOne getOne(String id) {
