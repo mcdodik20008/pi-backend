@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/{login}")
-    public UserView update(@PathVariable String login, UserView view) {
+    public UserView update(@PathVariable String login, @RequestBody UserView view) {
         service.update(login, view);
         return service.getOne(login);
     }
