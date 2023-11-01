@@ -1,3 +1,4 @@
+--changeset author:Gerasimov-22-10-add-customer
 create sequence customer_id start 1000;
 
 create table customer (
