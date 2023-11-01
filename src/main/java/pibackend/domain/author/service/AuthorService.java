@@ -5,7 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
+
 import pibackend.domain.author.model.entity.Author;
+import pibackend.domain.author.model.entity.QAuthor;
 import pibackend.domain.author.model.mapper.AuthorMapper;
 import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
@@ -21,6 +25,16 @@ public class AuthorService {
     private final AuthorRepository repository;
 
     private final AuthorMapper mapper;
+
+    public Page<AuthorViewReadList> getPageByIdLike(Pageable pageable, String id) {
+        BooleanExpression expression = QAuthor.author.uuid.like(id);
+        return repository.findAll(expression, pageable).map(mapper::toViewReadList);
+    }
+
+    public Page<AuthorViewReadList> getPageByNameLike(Pageable pageable, String name) {
+        BooleanExpression expression = QAuthor.author.name.like(name);
+        return repository.findAll(expression, pageable).map(mapper::toViewReadList);
+    }
 
     public Page<AuthorViewReadList> getPage(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toViewReadList);

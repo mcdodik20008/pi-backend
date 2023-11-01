@@ -1,14 +1,20 @@
 package pibackend.domain.customer.service;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.querydsl.core.types.dsl.BooleanExpression;
+
 import pibackend.domain.customer.model.entity.Customer;
+import pibackend.domain.customer.model.entity.QCustomer;
 import pibackend.domain.customer.model.mapper.CustomerMapper;
 import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.repository.CustomerRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -19,10 +25,18 @@ public class CustomerService {
 
     private final CustomerMapper mapper;
 
-    public List<CustomerView> getList() {
-        return repository.findAll().stream()
-                .map(mapper::toView)
-                .toList();
+    public Page<CustomerView> getPageByIdLike(Pageable pageable, String id) {
+        BooleanExpression expression = QCustomer.customer.id.like(id);
+        return repository.findAll(expression, pageable).map(mapper::toView);
+    }
+
+    public Page<CustomerView> getPageByNameLike(Pageable pageable, String name) {
+        BooleanExpression expression = QCustomer.customer.name.like(name);
+        return repository.findAll(expression, pageable).map(mapper::toView);
+    }
+
+    public Page<CustomerView> getPage(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toView);
     }
 
     public CustomerView getOne(String id) {

@@ -18,7 +18,16 @@ public class AuthorController {
     private final AuthorService service;
 
     @GetMapping
-    public Page<AuthorViewReadList> getPage(Pageable pageable) {
+    public Page<AuthorViewReadList> getPage(
+            Pageable pageable,
+            @RequestParam(required = false) String filterId,
+            @RequestParam(required = false) String filterName) {
+        if (filterId != null) {
+            return service.getPageByIdLike(pageable, filterId);
+        }
+        if (filterName != null) {
+            return service.getPageByNameLike(pageable, filterName);
+        }
         return service.getPage(pageable);
     }
 
