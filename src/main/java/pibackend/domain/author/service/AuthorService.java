@@ -24,7 +24,7 @@ public class AuthorService {
     private final AuthorMapper mapper;
 
     public Page<AuthorViewReadList> getPageByIdLike(Pageable pageable, String id) {
-        return repository.findByUuidContaining(id, pageable).map(mapper::toViewReadList);
+        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
     }
 
     public Page<AuthorViewReadList> getPageByNameLike(Pageable pageable, String name) {

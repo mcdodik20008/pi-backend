@@ -25,7 +25,7 @@ public class BookService extends PrivilegeService<Book, String> {
     private final BookMapper mapper;
 
     public Page<BookViewReadList> getPageByIdLike(Pageable pageable, String id) {
-        return repository.findByUuidContaining(id, pageable).map(mapper::toViewReadList);
+        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
     }
 
     public Page<BookViewReadList> getPageByTitleLike(Pageable pageable, String title) {

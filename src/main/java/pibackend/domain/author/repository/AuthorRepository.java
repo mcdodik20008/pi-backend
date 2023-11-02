@@ -8,7 +8,7 @@ import pibackend.domain.author.model.entity.Author;
 
 public interface AuthorRepository extends JpaRepository<Author, String>, QuerydslPredicateExecutor<Author> {
 
-    Page<Author> findByUuidContaining(String id, Pageable pageable);
+    Page<Author> findByUuidContainingIgnoreCase(String id, Pageable pageable);
 
     Page<Author> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
