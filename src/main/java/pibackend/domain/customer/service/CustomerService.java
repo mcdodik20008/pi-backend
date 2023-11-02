@@ -1,6 +1,8 @@
 package pibackend.domain.customer.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pibackend.domain.customer.model.entity.Customer;
 import pibackend.domain.customer.model.mapper.CustomerMapper;
@@ -8,7 +10,6 @@ import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.repository.CustomerRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -18,12 +19,6 @@ public class CustomerService {
     private final CustomerRepository repository;
 
     private final CustomerMapper mapper;
-
-    public List<CustomerView> getList() {
-        return repository.findAll().stream()
-                .map(mapper::toView)
-                .toList();
-    }
 
     public CustomerView getOne(String id) {
         return mapper.toView(getObject(id));
@@ -49,4 +44,7 @@ public class CustomerService {
         repository.deleteById(id);
     }
 
+    public Page<CustomerView> getPage(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toView);
+    }
 }

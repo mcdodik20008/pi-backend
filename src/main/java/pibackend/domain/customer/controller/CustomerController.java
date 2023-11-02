@@ -1,6 +1,8 @@
 package pibackend.domain.customer.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.service.CustomerService;
@@ -16,8 +18,8 @@ public class CustomerController {
     private final CustomerService service;
 
     @GetMapping
-    public List<CustomerView> getList() {
-        return service.getList();
+    public Page<CustomerView> getPage(Pageable pageable) {
+        return service.getPage(pageable);
     }
 
     @GetMapping("/{id}")
@@ -26,12 +28,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public void create(CustomerView view) {
+    public void create(@RequestBody CustomerView view) {
         service.create(view);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable String id, CustomerView view) {
+    public void update(@PathVariable String id, @RequestBody CustomerView view) {
         service.update(id, view);
     }
 
