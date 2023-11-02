@@ -6,10 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import pibackend.domain.customer.model.entity.Customer;
-import pibackend.domain.customer.model.entity.QCustomer;
 import pibackend.domain.customer.model.mapper.CustomerMapper;
 import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.repository.CustomerRepository;
@@ -26,13 +23,11 @@ public class CustomerService {
     private final CustomerMapper mapper;
 
     public Page<CustomerView> getPageByIdLike(Pageable pageable, String id) {
-        BooleanExpression expression = QCustomer.customer.id.like(id);
-        return repository.findAll(expression, pageable).map(mapper::toView);
+        return repository.findByIdContaining(id, pageable).map(mapper::toView);
     }
 
     public Page<CustomerView> getPageByNameLike(Pageable pageable, String name) {
-        BooleanExpression expression = QCustomer.customer.name.like(name);
-        return repository.findAll(expression, pageable).map(mapper::toView);
+        return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toView);
     }
 
     public Page<CustomerView> getPage(Pageable pageable) {

@@ -5,11 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.book.model.entity.Book;
-import pibackend.domain.book.model.entity.QBook;
 import pibackend.domain.book.model.mapper.BookMapper;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
@@ -27,14 +24,12 @@ public class BookService extends PrivilegeService<Book, String> {
 
     private final BookMapper mapper;
 
-    public Page<BookViewReadList> getPageByIdLike(Pageable pageable, String filterId) {
-        BooleanExpression expression = QBook.book.uuid.like(filterId);
-        return repository.findAll(expression, pageable).map(mapper::toViewReadList);
+    public Page<BookViewReadList> getPageByIdLike(Pageable pageable, String id) {
+        return repository.findByUuidContaining(id, pageable).map(mapper::toViewReadList);
     }
 
-    public Page<BookViewReadList> getPageByTitleLike(Pageable pageable, String filterTitle) {
-        BooleanExpression expression = QBook.book.title.like(filterTitle);
-        return repository.findAll(expression, pageable).map(mapper::toViewReadList);
+    public Page<BookViewReadList> getPageByTitleLike(Pageable pageable, String title) {
+        return repository.findByTitleContainingIgnoreCase(title, pageable).map(mapper::toViewReadList);
     }
 
     public Page<BookViewReadList> getPage(Pageable pageable) {

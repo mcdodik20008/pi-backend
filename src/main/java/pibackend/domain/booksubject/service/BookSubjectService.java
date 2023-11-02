@@ -5,10 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import pibackend.domain.booksubject.model.entity.BookSubject;
-import pibackend.domain.booksubject.model.entity.QBookSubject;
 import pibackend.domain.booksubject.model.mapper.BookSubjectMapper;
 import pibackend.domain.booksubject.model.view.BookSubjectView;
 import pibackend.domain.booksubject.repository.BookSubjectRepository;
@@ -24,13 +21,12 @@ public class BookSubjectService {
 
     private final BookSubjectMapper mapper;
 
-    public Page<BookSubjectView> getPageByIdLike(Pageable pageable, Long filterId) {
-        return repository.getPageByIdLike(filterId, pageable).map(mapper::toView);
+    public Page<BookSubjectView> getPageByIdLike(Pageable pageable, Long id) {
+        return repository.findByIdContaining(id, pageable).map(mapper::toView);
     }
 
-    public Page<BookSubjectView> getPageBySubjectLike(Pageable pageable, String filterSubject) {
-        BooleanExpression expression = QBookSubject.bookSubject.subject.like(filterSubject);
-        return repository.findAll(expression, pageable).map(mapper::toView);
+    public Page<BookSubjectView> getPageBySubjectLike(Pageable pageable, String subject) {
+        return repository.findBySubjectContainingIgnoreCase(subject, pageable).map(mapper::toView);
     }
 
     public Page<BookSubjectView> getPage(Pageable pageable) {
