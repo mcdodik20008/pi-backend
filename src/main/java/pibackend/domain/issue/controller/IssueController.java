@@ -17,7 +17,11 @@ public class IssueController {
     private final IssueService service;
 
     @GetMapping
-    public Page<IssueView> getPage(Pageable pageable) {
+    public Page<IssueView> getPage(Pageable pageable,
+            @RequestParam(required = false) Long filterId) {
+        if (filterId != null) {
+            return service.getPageByIdLike(pageable, filterId);
+        }
         return service.getPage(pageable);
     }
     

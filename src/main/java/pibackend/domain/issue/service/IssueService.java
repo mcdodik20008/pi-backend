@@ -21,6 +21,10 @@ public class IssueService {
 
     private final IssueRepository repository;
 
+    public Page<IssueView> getPageByIdLike(Pageable pageable, Long id) {
+        return repository.findByIdContaining(id, pageable).map(mapper::toView);
+    }
+
     public Page<IssueView> getPage(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toView);
     }
@@ -49,6 +53,5 @@ public class IssueService {
     public void delete(Long id) {
         getObject(id);
         repository.deleteById(id);
-    }
-    
+    }    
 }
