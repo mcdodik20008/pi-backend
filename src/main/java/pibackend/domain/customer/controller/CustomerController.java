@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.customer.model.view.CustomerView;
+import pibackend.domain.customer.model.view.CustomerViewList;
 import pibackend.domain.customer.service.CustomerService;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class CustomerController {
     private final CustomerService service;
 
     @GetMapping
-    public Page<CustomerView> getPage(Pageable pageable) {
+    public Page<CustomerViewList> getPage(Pageable pageable) {
         return service.getPage(pageable);
     }
 

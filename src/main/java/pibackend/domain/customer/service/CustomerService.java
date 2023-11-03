@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pibackend.domain.customer.model.entity.Customer;
 import pibackend.domain.customer.model.mapper.CustomerMapper;
 import pibackend.domain.customer.model.view.CustomerView;
+import pibackend.domain.customer.model.view.CustomerViewList;
 import pibackend.domain.customer.repository.CustomerRepository;
 
 import javax.transaction.Transactional;
@@ -44,7 +45,8 @@ public class CustomerService {
         repository.deleteById(id);
     }
 
-    public Page<CustomerView> getPage(Pageable pageable) {
-        return repository.findAll(pageable).map(mapper::toView);
+    public Page<CustomerViewList> getPage(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toViewList);
     }
+
 }
