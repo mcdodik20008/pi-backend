@@ -1,4 +1,4 @@
-package pibackend.domain.dataimport.customer.controller;
+package pibackend.domain.dataimport.issue.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import pibackend.domain.dataimport.customer.service.ImportCustomerService;
+import pibackend.domain.dataimport.issue.service.ImportIssueService;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/import", produces = "application/json")
-public class ImportCustomerContoller {
+public class ImportIssueController {
     
-    private final ImportCustomerService service;
+    private final ImportIssueService service;
 
-    @PostMapping("/customer")
+    @PostMapping("/issue")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             service.save(file);
