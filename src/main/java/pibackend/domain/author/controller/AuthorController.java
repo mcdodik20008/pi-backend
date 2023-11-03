@@ -28,13 +28,13 @@ public class AuthorController {
     }
 
     @PostMapping
-    public AuthorViewReadOne create(AuthorViewReadList view) {
+    public AuthorViewReadOne create(@RequestBody AuthorViewReadList view) {
         String id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public AuthorViewReadOne update(@PathVariable String id, AuthorViewReadList view) {
+    public AuthorViewReadOne update(@PathVariable String id, @RequestBody AuthorViewReadList view) {
         service.update(id, view);
         return service.getOne(id);
     }

@@ -26,13 +26,13 @@ public class BookSubjectController {
     }
 
     @PostMapping
-    public BookSubjectView create(BookSubjectView view) {
+    public BookSubjectView create(@RequestBody BookSubjectView view) {
         Long id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public BookSubjectView update(@PathVariable Long id, BookSubjectView view) {
+    public BookSubjectView update(@PathVariable Long id, @RequestBody BookSubjectView view) {
         service.update(id, view);
         return service.getOne(id);
     }

@@ -27,13 +27,13 @@ public class BookController {
     }
 
     @PostMapping
-    public BookViewReadOne create(BookViewReadList view) {
+    public BookViewReadOne create(@RequestBody BookViewReadList view) {
         String id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public BookViewReadOne update(@PathVariable String id, BookViewReadList view) {
+    public BookViewReadOne update(@PathVariable String id, @RequestBody BookViewReadList view) {
         service.update(id, view);
         return service.getOne(id);
     }

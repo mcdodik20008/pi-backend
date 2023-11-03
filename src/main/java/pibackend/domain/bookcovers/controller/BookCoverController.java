@@ -26,13 +26,13 @@ public class BookCoverController {
     }
 
     @PostMapping
-    public BookCoverView create(BookCoverView view) {
+    public BookCoverView create(@RequestBody BookCoverView view) {
         Long id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public BookCoverView update(@PathVariable Long id, BookCoverView view) {
+    public BookCoverView update(@PathVariable Long id, @RequestBody BookCoverView view) {
         service.update(id, view);
         return service.getOne(id);
     }
