@@ -1,4 +1,4 @@
-package pibackend.domain.dataimport.issue.controller;
+package pibackend.domain.dataimport.bookcover.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import pibackend.domain.dataimport.issue.service.ImportIssueService;
+import pibackend.domain.dataimport.bookcover.service.ImportBookCoverService;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/import", produces = "application/json")
-public class ImportIssueController {
-    
-    private final ImportIssueService service;
+public class ImportBookCoverController {
 
-    @PostMapping("/issue")
+    private final ImportBookCoverService service;
+
+    @PostMapping("/book_cover")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             service.save(file);
@@ -27,5 +27,5 @@ public class ImportIssueController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
     }
-    
+
 }

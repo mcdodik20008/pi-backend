@@ -72,6 +72,7 @@ public class ImportIssueService {
     }
 
     private void saveExcelData(List<Issue> issues) {
-        issues = repository.saveAll(issues);
-    }    
+        repository.saveAll(issues);
+    }
+        
 }

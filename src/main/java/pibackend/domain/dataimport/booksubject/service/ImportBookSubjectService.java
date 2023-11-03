@@ -1,4 +1,4 @@
-package pibackend.domain.dataimport.customer.service;
+package pibackend.domain.dataimport.booksubject.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,23 +12,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import pibackend.domain.customer.model.entity.Customer;
-import pibackend.domain.customer.repository.CustomerRepository;
+import pibackend.domain.booksubject.model.entity.BookSubject;
+import pibackend.domain.booksubject.repository.BookSubjectRepository;
 
 @Service
 @RequiredArgsConstructor
-public class ImportCustomerService {
-    
-    private final CustomerRepository repository;
+public class ImportBookSubjectService {
 
+    private final BookSubjectRepository repository;
+    
     public void save(MultipartFile file) {
         try {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            Sheet sheet = workbook.getSheet("customers");
+            Sheet sheet = workbook.getSheet("book_subjects");
             Iterator<Row> rows = sheet.iterator();
-            List<Customer> customers = new ArrayList<Customer>();
+            List<BookSubject> subjects = new ArrayList<BookSubject>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -37,48 +37,49 @@ public class ImportCustomerService {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                Customer customer = new Customer();
+                BookSubject subject = new BookSubject();
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            customer.setId(formatter.formatCellValue(currentCell));
+                            subject.setId(formatter.formatCellValue(currentCell));
                             break;
                         case 1:
-                            customer.setName(formatter.formatCellValue(currentCell));
+                            subject.setName(formatter.formatCellValue(currentCell));
                             break;
                         case 2:
-                            customer.setAddress(formatter.formatCellValue(currentCell));
+                            subject.setAddress(formatter.formatCellValue(currentCell));
                             break;
                         case 3:
-                            customer.setZip(formatter.formatCellValue(currentCell));
+                            subject.setZip(formatter.formatCellValue(currentCell));
                             break;
                         case 4:
-                            customer.setCity(formatter.formatCellValue(currentCell));
+                            subject.setCity(formatter.formatCellValue(currentCell));
                             break;
                         case 5:
-                            customer.setPhone(formatter.formatCellValue(currentCell));
+                            subject.setPhone(formatter.formatCellValue(currentCell));
                             break;
                         case 6:
-                            customer.setEmail(formatter.formatCellValue(currentCell));
+                            subject.setEmail(formatter.formatCellValue(currentCell));
                             break;
                         default:
                             break;
                     }
                     cellIdx++;
                 }
-                customers.add(customer);
+                subjects.add(subject);
             }
             workbook.close();
-            saveExcelData(customers);
+            saveExcelData(subjects);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveExcelData(List<Customer> customers) {
-        repository.saveAll(customers);
+    private void saveExcelData(List<BookSubject> subjects) {
+        repository.saveAll(subjects);
     }
+
     
 }

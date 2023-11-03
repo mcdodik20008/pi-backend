@@ -1,4 +1,4 @@
-package pibackend.domain.dataimport.customer.service;
+package pibackend.domain.dataimport.author.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,23 +12,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import pibackend.domain.customer.model.entity.Customer;
-import pibackend.domain.customer.repository.CustomerRepository;
+import pibackend.domain.author.model.entity.Author;
+import pibackend.domain.author.repository.AuthorRepository;
 
 @Service
 @RequiredArgsConstructor
-public class ImportCustomerService {
-    
-    private final CustomerRepository repository;
+public class ImportAuthorService {
+
+    private final AuthorRepository repository;
 
     public void save(MultipartFile file) {
         try {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            Sheet sheet = workbook.getSheet("customers");
+            Sheet sheet = workbook.getSheet("authors");
             Iterator<Row> rows = sheet.iterator();
-            List<Customer> customers = new ArrayList<Customer>();
+            List<Author> authors = new ArrayList<Author>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -37,48 +37,45 @@ public class ImportCustomerService {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                Customer customer = new Customer();
+                Author author = new Author();
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            customer.setId(formatter.formatCellValue(currentCell));
+                            author.setUuid(formatter.formatCellValue(currentCell));
                             break;
                         case 1:
-                            customer.setName(formatter.formatCellValue(currentCell));
+                            author.setName(formatter.formatCellValue(currentCell));
                             break;
                         case 2:
-                            customer.setAddress(formatter.formatCellValue(currentCell));
+                            author.setBio(formatter.formatCellValue(currentCell));
                             break;
                         case 3:
-                            customer.setZip(formatter.formatCellValue(currentCell));
+                            author.setBirthDate(formatter.formatCellValue(currentCell));
                             break;
                         case 4:
-                            customer.setCity(formatter.formatCellValue(currentCell));
+                            author.setDeathDate(formatter.formatCellValue(currentCell));
                             break;
                         case 5:
-                            customer.setPhone(formatter.formatCellValue(currentCell));
-                            break;
-                        case 6:
-                            customer.setEmail(formatter.formatCellValue(currentCell));
+                            author.setWikipedia(formatter.formatCellValue(currentCell));
                             break;
                         default:
                             break;
                     }
                     cellIdx++;
                 }
-                customers.add(customer);
+                authors.add(author);
             }
             workbook.close();
-            saveExcelData(customers);
+            saveExcelData(authors);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveExcelData(List<Customer> customers) {
-        repository.saveAll(customers);
+    private void saveExcelData(List<Author> authors) {
+        repository.saveAll(authors);
     }
     
 }
