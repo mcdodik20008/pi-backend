@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.service.CustomerService;
 
-import java.util.List;
-
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
