@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.auth.user.model.view.UserChangePassword;
+import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.service.UserService;
 
@@ -37,8 +38,8 @@ public class UserController {
     }
 
     @PatchMapping("/change_password_admin")
-    public Boolean changePasswordAdmin(@RequestBody UserChangePassword view) {
-        return service.changePassword(view);
+    public Boolean changePasswordAdmin(@RequestBody UserChangePasswordNoConfirmation view) {
+        return service.changePasswordAdmin(view);
     }
 
     @PutMapping("/{login}")

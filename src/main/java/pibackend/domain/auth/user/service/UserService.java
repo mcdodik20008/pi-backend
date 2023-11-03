@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.model.mapper.UserMapper;
 import pibackend.domain.auth.user.model.view.UserChangePassword;
+import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.repository.UserRepository;
 
@@ -86,7 +87,7 @@ public class UserService {
         }
     }
 
-    public Boolean changePasswordAdmin(UserChangePassword view) {
+    public Boolean changePasswordAdmin(UserChangePasswordNoConfirmation view) {
             var user = getObject(view.getLogin());
             var newPassword = Hashing.sha256().hashString(view.getNewPassword(), StandardCharsets.UTF_8).toString();
             user.setPassword(newPassword);
