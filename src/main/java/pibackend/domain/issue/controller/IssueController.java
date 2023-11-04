@@ -31,13 +31,13 @@ public class IssueController {
     }
 
     @PostMapping
-    public IssueView create(IssueView view) {
+    public IssueView create(@RequestBody IssueView view) {
         Long id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public IssueView update(@PathVariable Long id, IssueView view) {
+    public IssueView update(@PathVariable Long id, @RequestBody IssueView view) {
         service.update(id, view);
         return service.getOne(id);
     }

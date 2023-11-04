@@ -27,16 +27,16 @@ public class CustomerService {
 
     private final CustomerMapper mapper;
 
-    public Page<CustomerView> getPageByIdLike(Pageable pageable, String id) {
-        return repository.findByIdContaining(id, pageable).map(mapper::toView);
+    public Page<CustomerViewList> getPageByIdLike(Pageable pageable, String id) {
+        return repository.findByIdContaining(id, pageable).map(mapper::toViewList);
     }
 
-    public Page<CustomerView> getPageByNameLike(Pageable pageable, String name) {
-        return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toView);
+    public Page<CustomerViewList> getPageByNameLike(Pageable pageable, String name) {
+        return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toViewList);
     }
 
-    public Page<CustomerView> getPage(Pageable pageable) {
-        return repository.findAll(pageable).map(mapper::toView);
+    public Page<CustomerViewList> getPage(Pageable pageable) {
+        return repository.findAll(pageable).map(mapper::toViewList);
     }
 
     public CustomerView getOne(String id) {
