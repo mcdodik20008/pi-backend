@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.book.model.mapper.BookMapper;
@@ -22,6 +23,14 @@ public class BookService extends PrivilegeService<Book, String> {
     private final BookRepository repository;
 
     private final BookMapper mapper;
+
+    public Page<BookViewReadList> getPageByIdLike(Pageable pageable, String id) {
+        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
+    }
+
+    public Page<BookViewReadList> getPageByTitleLike(Pageable pageable, String title) {
+        return repository.findByTitleContainingIgnoreCase(title, pageable).map(mapper::toViewReadList);
+    }
 
     public Page<BookViewReadList> getPage(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toViewReadList);

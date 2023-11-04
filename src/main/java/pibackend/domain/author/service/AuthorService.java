@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import pibackend.domain.author.model.entity.Author;
 import pibackend.domain.author.model.mapper.AuthorMapper;
 import pibackend.domain.author.model.view.AuthorViewReadList;
@@ -21,6 +22,14 @@ public class AuthorService {
     private final AuthorRepository repository;
 
     private final AuthorMapper mapper;
+
+    public Page<AuthorViewReadList> getPageByIdLike(Pageable pageable, String id) {
+        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
+    }
+
+    public Page<AuthorViewReadList> getPageByNameLike(Pageable pageable, String name) {
+        return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toViewReadList);
+    }
 
     public Page<AuthorViewReadList> getPage(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toViewReadList);

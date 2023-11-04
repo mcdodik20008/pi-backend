@@ -20,7 +20,11 @@ public class BookCoverService {
 
     private final BookCoverMapper mapper;
 
-    public Page<BookCoverView> getList(Pageable pageable) {
+    public Page<BookCoverView> getPageByIdLike(Pageable pageable, Long id) {
+        return repository.findByIdContaining(id, pageable).map(mapper::toView);
+    }
+
+    public Page<BookCoverView> getPage(Pageable pageable) {
         return repository.findAll(pageable).map(mapper::toView);
     }
 

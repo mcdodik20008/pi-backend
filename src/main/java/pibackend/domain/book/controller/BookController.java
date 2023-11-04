@@ -17,7 +17,15 @@ public class BookController {
     private final BookService service;
 
     @GetMapping
-    public Page<BookViewReadList> getPage(Pageable pageable) {
+    public Page<BookViewReadList> getPage(Pageable pageable,
+            @RequestParam(required = false) String filterId,
+            @RequestParam(required = false) String filterTitle) {
+        if (filterId != null) {
+            return service.getPageByIdLike(pageable, filterId);
+        }
+        if (filterTitle != null) {
+            return service.getPageByTitleLike(pageable, filterTitle);
+        }
         return service.getPage(pageable);
     }
 
