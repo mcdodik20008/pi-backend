@@ -1,13 +1,19 @@
 package pibackend.infrastructure;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
+import pibackend.domain.auth.user.model.entity.User;
 
-public abstract class PrivilegeService<T, V> {
+public class PrivilegeService {
 
-    @Autowired
-    private JpaRepository<T, V> repository;
+    public static void checkPrivilege(Registry registry, Level level){
+        User user = SecurityContext.currentUser;
 
-    public abstract Registry getRegistry();
+        for (var privilege: user.getAllPrivilege()) {
+            if (privilege.isGood(registry, level)){
+                return;
+            }
+        }
+        throw new RuntimeException("Нет привилегий");
+    }
 }

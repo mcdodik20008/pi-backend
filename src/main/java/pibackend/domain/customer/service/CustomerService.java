@@ -9,11 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import pibackend.domain.auth.role.model.entity.Level;
+import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.customer.model.entity.Customer;
 import pibackend.domain.customer.model.mapper.CustomerMapper;
 import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.model.view.CustomerViewList;
 import pibackend.domain.customer.repository.CustomerRepository;
+import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -28,38 +31,46 @@ public class CustomerService {
     private final CustomerMapper mapper;
 
     public Page<CustomerViewList> getPageByIdLike(Pageable pageable, String id) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
         return repository.findByIdContaining(id, pageable).map(mapper::toViewList);
     }
 
     public Page<CustomerViewList> getPageByNameLike(Pageable pageable, String name) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
         return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toViewList);
     }
 
     public Page<CustomerViewList> getPage(Pageable pageable) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
         return repository.findAll(pageable).map(mapper::toViewList);
     }
 
     public CustomerView getOne(String id) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
         return mapper.toView(getObject(id));
     }
 
     public Customer getObject(String id) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Не найден клиент с идентификатором: " + id));
     }
 
     public void create(@RequestBody CustomerView view) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.CUD);
         var entity = mapper.toEntity(view);
         repository.save(entity);
     }
 
     public void update(String id, @RequestBody CustomerView view) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.CUD);
         var entity = mapper.toEntity(getObject(id), view);
         repository.save(entity);
     }
 
     public void delete(String id) {
+        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.CUD);
         repository.deleteById(id);
     }
 

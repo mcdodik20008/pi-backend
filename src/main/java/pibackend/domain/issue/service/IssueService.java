@@ -7,10 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pibackend.domain.auth.role.model.entity.Level;
+import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.issue.model.entity.Issue;
 import pibackend.domain.issue.model.mapper.IssueMapper;
 import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.repository.IssueRepository;
+import pibackend.infrastructure.PrivilegeService;
 
 @Service
 @Transactional
@@ -22,35 +25,42 @@ public class IssueService {
     private final IssueRepository repository;
 
     public Page<IssueView> getPageByIdLike(Pageable pageable, Long id) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findByIdContaining(id, pageable).map(mapper::toView);
     }
 
     public Page<IssueView> getPage(Pageable pageable) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findAll(pageable).map(mapper::toView);
     }
 
     public IssueView getOne(Long id) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return mapper.toView(getObject(id));
     }
 
     private Issue getObject(Long id) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findById(id)
             .orElseThrow(() ->
                 new RuntimeException("Не найдена выдача с идентификатором: " + id));
     }
 
     public Long create(IssueView view) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
         Issue entity = mapper.toEntity(view);
         return repository.save(entity).getId();
     }
 
     public void update(Long id, IssueView view) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
         Issue entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);
         repository.save(entity);
     }
 
     public void delete(Long id) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
         getObject(id);
         repository.deleteById(id);
     }    

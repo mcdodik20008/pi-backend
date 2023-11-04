@@ -2,9 +2,11 @@ package pibackend.domain.auth.user.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import pibackend.domain.auth.role.model.entity.Privilege;
 import pibackend.domain.auth.role.model.entity.Role;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -34,5 +36,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-
+    public List<Privilege> getAllPrivilege(){
+        return roles.stream()
+                .map(Role::getPrivileges)
+                .flatMap(Collection::stream)
+                .distinct().toList();
+    }
 }

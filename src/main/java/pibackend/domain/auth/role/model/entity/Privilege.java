@@ -23,7 +23,24 @@ public class Privilege {
     @Column(name = "registry", nullable = false)
     private Registry registry;
 
-    @Convert(converter = LevelConverter.class)
     @Column(name = "levels", nullable = false)
-    private List<Level> levels;
+    private Level levels;
+
+    public boolean isGood(Registry registry, Level level) {
+        if (this.registry.equals(Registry.ALL)){
+            return true;
+        }
+
+        if (this.registry.equals(registry)){
+            if (this.levels.equals(Level.ALL)){
+                return true;
+            }
+
+            if (this.levels.equals(level)){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
