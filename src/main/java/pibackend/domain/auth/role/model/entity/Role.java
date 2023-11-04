@@ -15,7 +15,7 @@ public class Role {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "privilege_name", nullable = false)
+    @Column(name = "role_name", nullable = false)
     private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)

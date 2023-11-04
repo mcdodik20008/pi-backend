@@ -6,5 +6,6 @@ public enum Registry {
     AUTHOR,
     BOOK_COVERS,
     BOOK_SUBJECT,
-    // TODO: выдачи, клиенты
+    ISSUES,
+    CUSTOMER
 }

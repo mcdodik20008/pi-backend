@@ -13,4 +13,5 @@
     <include file="init/10/26.sql" relativeToChangelogFile="true"/>
 
     <include file="./data/09/12.sql" relativeToChangelogFile="true"/>
+    <include file="./data/10/30.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
