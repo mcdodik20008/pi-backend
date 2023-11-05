@@ -18,7 +18,7 @@ public class SecurityContext {
 
     private final Map<String, Pair<LocalDateTime, User>> authUsers = new HashMap<>();
 
-    public static User currentUser;
+    public static User currentUser = null;
 
     public Boolean userIsLogin(String clientAuthCode) {
         // Логинился ли у нас пользователь
