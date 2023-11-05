@@ -12,11 +12,11 @@ INSERT INTO privilege
  (8,'REPORTS','REPORTS','ALL'),
  (9,'ISSUES','ISSUES','ALL');
 
-INSERT INTO public."role" (id,role_name,privilege_name) VALUES
-       (1,'Админ','Админ'),
-       (2,'Оператор стойки','Оператор стойки'),
-       (3,'Оператор книгооборота','Оператор книгооборота'),
-       (4,'Управляющий','Управляющий');
+INSERT INTO public."role" (id, role_name) VALUES
+       (1,'Админ'),
+       (2,'Оператор стойки'),
+       (3,'Оператор книгооборота'),
+       (4,'Управляющий');
 
 INSERT INTO public.roles_privilege (privilege_id,role_id) VALUES
      (1,1),
