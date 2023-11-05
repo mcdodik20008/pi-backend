@@ -28,7 +28,7 @@ public class LoginController {
 
     private final UserMapper mapper;
 
-    @PostMapping("/currentUser")
+    @GetMapping("/currentUser")
     public UserView getCurrentUser(){
         return mapper.toView(SecurityContext.currentUser);
     }
