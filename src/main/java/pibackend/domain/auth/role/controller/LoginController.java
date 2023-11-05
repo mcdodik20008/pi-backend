@@ -26,13 +26,6 @@ public class LoginController {
 
     private final UserRepository userRepository;
 
-    private final UserMapper mapper;
-
-    @GetMapping("/currentUser")
-    public UserView getCurrentUser(){
-        return mapper.toView(SecurityContext.currentUser);
-    }
-
     @PostMapping("/login")
     public String login(@RequestBody LoginView auth) {
         Optional<User> user = userRepository.findById(auth.getLogin());

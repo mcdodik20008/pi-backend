@@ -23,6 +23,7 @@ public class Privilege {
     @Column(name = "registry", nullable = false)
     private Registry registry;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "levels", nullable = false)
     private Level levels;
 

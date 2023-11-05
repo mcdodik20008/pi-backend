@@ -22,13 +22,6 @@ public class UserView {
 
     private String password;
 
-    private List<Role> role;
-
-    public List<Privilege> getAllPrivileges(){
-        return role.stream()
-                .map(Role::getPrivileges)
-                .flatMap(Collection::stream)
-                .toList();
-    }
+    private List<Role> roles;
 
 }
