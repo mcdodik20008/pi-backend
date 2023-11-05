@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.view.LoginView;
 import pibackend.domain.auth.user.model.entity.User;
+import pibackend.domain.auth.user.model.mapper.UserMapper;
+import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.repository.UserRepository;
 import pibackend.infrastructure.SecurityContext;
 
@@ -23,6 +25,13 @@ public class LoginController {
     private final SecurityContext context;
 
     private final UserRepository userRepository;
+
+    private final UserMapper mapper;
+
+    @PostMapping("/currentUser")
+    public UserView getCurrentUser(){
+        return mapper.toView(SecurityContext.currentUser);
+    }
 
     @PostMapping("/login")
     public String login(@RequestBody LoginView auth) {
