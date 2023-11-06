@@ -2,6 +2,12 @@ package pibackend.domain.auth.user.service;
 
 import com.google.common.hash.Hashing;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,8 +20,12 @@ import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.repository.UserRepository;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 @Transactional
@@ -29,6 +39,10 @@ public class UserService {
     public Page<UserView> getPage(Pageable pageable) {
         return repository.findAll(pageable)
                 .map(mapper::toView);
+    }
+
+    public List<User> getList() {
+        return repository.findAll();
     }
 
     public UserView getOne(String login) {
@@ -94,5 +108,5 @@ public class UserService {
             repository.save(user);
             return true;
     }
-    
+
 }

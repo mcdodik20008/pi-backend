@@ -8,6 +8,13 @@ import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.service.UserService;
+import pibackend.infrastructure.export.UserExcelExporter;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -51,6 +58,21 @@ public class UserController {
     @DeleteMapping("/{login}")
     public void delete(@PathVariable String login) {
         service.delete(login);
+    }
+
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        var users = service.getList();
+        UserExcelExporter excelExporter = new UserExcelExporter(users);
+        excelExporter.export(response);
     }
 
 }
