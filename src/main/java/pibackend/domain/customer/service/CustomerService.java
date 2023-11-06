@@ -26,46 +26,46 @@ public class CustomerService {
     private final CustomerMapper mapper;
 
     public Page<CustomerViewList> getPageByIdLike(Pageable pageable, String id) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         return repository.findByIdContaining(id, pageable).map(mapper::toViewList);
     }
 
     public Page<CustomerViewList> getPageByNameLike(Pageable pageable, String name) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toViewList);
     }
 
     public Page<CustomerViewList> getPage(Pageable pageable) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         return repository.findAll(pageable).map(mapper::toViewList);
     }
 
     public CustomerView getOne(String id) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         return mapper.toView(getObject(id));
     }
 
     public Customer getObject(String id) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Не найден клиент с идентификатором: " + id));
     }
 
     public void create(@RequestBody CustomerView view) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.CUD);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.CUD);
         var entity = mapper.toEntity(view);
         repository.save(entity);
     }
 
     public void update(String id, @RequestBody CustomerView view) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.CUD);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.CUD);
         var entity = mapper.toEntity(getObject(id), view);
         repository.save(entity);
     }
 
     public void delete(String id) {
-        PrivilegeService.checkPrivilege(Registry.CUSTOMER, Level.CUD);
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.CUD);
         repository.deleteById(id);
     }
 
