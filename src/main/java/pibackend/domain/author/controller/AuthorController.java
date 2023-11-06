@@ -1,7 +1,6 @@
 package pibackend.domain.author.controller;
 
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +14,6 @@ import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.service.AuthorService;
 import pibackend.infrastructure.SecurityContext;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -50,7 +47,7 @@ public class AuthorController {
 
     @Transactional
     @GetMapping("/currentUser")
-    public UserView getCurrentUser(){
+    public UserView getCurrentUser() {
         User user = SecurityContext.currentUser;
         user = userRepository.findById(user.getLogin()).get();
         if (!user.getRoles().isEmpty() && !user.getRoles().get(0).getPrivileges().isEmpty()) {

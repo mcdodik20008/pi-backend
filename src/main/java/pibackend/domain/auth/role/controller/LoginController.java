@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.view.LoginView;
 import pibackend.domain.auth.user.model.entity.User;
-import pibackend.domain.auth.user.model.mapper.UserMapper;
-import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.repository.UserRepository;
 import pibackend.infrastructure.SecurityContext;
 

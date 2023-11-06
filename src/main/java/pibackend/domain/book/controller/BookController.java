@@ -8,6 +8,12 @@ import pibackend.domain.book.model.view.BookViewCreate;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.service.BookService;
+import pibackend.infrastructure.export.BookExcelExporter;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -19,8 +25,8 @@ public class BookController {
 
     @GetMapping
     public Page<BookViewReadList> getPage(Pageable pageable,
-            @RequestParam(required = false) String filterId,
-            @RequestParam(required = false) String filterTitle) {
+                                          @RequestParam(required = false) String filterId,
+                                          @RequestParam(required = false) String filterTitle) {
         if (filterId != null) {
             return service.getPageByIdLike(pageable, filterId);
         }
@@ -50,6 +56,21 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         service.delete(id);
+    }
+
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        var dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        var currentDateTime = dateFormatter.format(new Date());
+
+        var headerKey = "Content-Disposition";
+        var headerValue = "attachment; filename=books_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        var books = service.getList();
+        var excelExporter = new BookExcelExporter(books);
+        excelExporter.export(response);
     }
 
 }

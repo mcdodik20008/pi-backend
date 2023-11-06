@@ -6,11 +6,11 @@ import pibackend.domain.auth.user.model.entity.User;
 
 public class PrivilegeService {
 
-    public static void checkPrivilege(Registry registry, Level level){
+    public static void checkPrivilege(Registry registry, Level level) {
         User user = SecurityContext.currentUser;
 
-        for (var privilege: user.getAllPrivilege()) {
-            if (privilege.isGood(registry, level)){
+        for (var privilege : user.getAllPrivilege()) {
+            if (privilege.isGood(registry, level)) {
                 return;
             }
         }

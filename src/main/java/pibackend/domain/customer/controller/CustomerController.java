@@ -3,16 +3,10 @@ package pibackend.domain.customer.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.customer.model.view.CustomerView;
 import pibackend.domain.customer.model.view.CustomerViewList;
-import pibackend.domain.customer.model.view.CustomerViewList;
 import pibackend.domain.customer.service.CustomerService;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -26,13 +20,13 @@ public class CustomerController {
     public Page<CustomerViewList> getPage(Pageable pageable,
                                           @RequestParam(required = false) String filterId,
                                           @RequestParam(required = false) String filterName) {
-                if (filterId != null) {
-                    return service.getPageByIdLike(pageable, filterId);
-                }
-                if (filterName != null) {
-                    return service.getPageByNameLike(pageable, filterName);
-                }
-                return service.getPage(pageable);
+        if (filterId != null) {
+            return service.getPageByIdLike(pageable, filterId);
+        }
+        if (filterName != null) {
+            return service.getPageByNameLike(pageable, filterName);
+        }
+        return service.getPage(pageable);
     }
 
     @GetMapping("/{id}")

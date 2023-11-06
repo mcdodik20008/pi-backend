@@ -36,7 +36,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public List<Privilege> getAllPrivilege(){
+    public List<Privilege> getAllPrivilege() {
         return roles.stream()
                 .map(Role::getPrivileges)
                 .flatMap(Collection::stream)

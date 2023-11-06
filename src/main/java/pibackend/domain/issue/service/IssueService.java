@@ -1,12 +1,9 @@
 package pibackend.domain.issue.service;
 
-import javax.transaction.Transactional;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.issue.model.entity.Issue;
@@ -14,6 +11,8 @@ import pibackend.domain.issue.model.mapper.IssueMapper;
 import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.repository.IssueRepository;
 import pibackend.infrastructure.PrivilegeService;
+
+import javax.transaction.Transactional;
 
 @Service
 @Transactional
@@ -42,8 +41,8 @@ public class IssueService {
     private Issue getObject(Long id) {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findById(id)
-            .orElseThrow(() ->
-                new RuntimeException("Не найдена выдача с идентификатором: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Не найдена выдача с идентификатором: " + id));
     }
 
     public Long create(IssueView view) {
@@ -63,5 +62,5 @@ public class IssueService {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
         getObject(id);
         repository.deleteById(id);
-    }    
+    }
 }

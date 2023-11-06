@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.book.model.entity.Book;
@@ -16,6 +15,7 @@ import pibackend.domain.book.repository.BookRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -72,4 +72,7 @@ public class BookService {
         repository.deleteById(id);
     }
 
+    public List<Book> getList() {
+        return repository.findAll();
+    }
 }

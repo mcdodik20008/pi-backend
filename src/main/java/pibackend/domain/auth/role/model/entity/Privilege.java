@@ -2,10 +2,8 @@ package pibackend.domain.auth.role.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import pibackend.infrastructure.LevelConverter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,16 +26,16 @@ public class Privilege {
     private Level levels;
 
     public boolean isGood(Registry registry, Level level) {
-        if (this.registry.equals(Registry.ALL)){
+        if (this.registry.equals(Registry.ALL)) {
             return true;
         }
 
-        if (this.registry.equals(registry)){
-            if (this.levels.equals(Level.ALL)){
+        if (this.registry.equals(registry)) {
+            if (this.levels.equals(Level.ALL)) {
                 return true;
             }
 
-            if (this.levels.equals(level)){
+            if (this.levels.equals(level)) {
                 return true;
             }
         }

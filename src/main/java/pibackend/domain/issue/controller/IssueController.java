@@ -1,10 +1,9 @@
 package pibackend.domain.issue.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import lombok.RequiredArgsConstructor;
 import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.service.IssueService;
 
@@ -18,13 +17,13 @@ public class IssueController {
 
     @GetMapping
     public Page<IssueView> getPage(Pageable pageable,
-            @RequestParam(required = false) Long filterId) {
+                                   @RequestParam(required = false) Long filterId) {
         if (filterId != null) {
             return service.getPageByIdLike(pageable, filterId);
         }
         return service.getPage(pageable);
     }
-    
+
     @GetMapping("/{id}")
     public IssueView getOne(@PathVariable Long id) {
         return service.getOne(id);

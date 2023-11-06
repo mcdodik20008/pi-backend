@@ -2,10 +2,8 @@ package pibackend.domain.auth.user.model.view;
 
 import lombok.Getter;
 import lombok.Setter;
-import pibackend.domain.auth.role.model.entity.Privilege;
 import pibackend.domain.auth.role.model.entity.Role;
 
-import java.util.Collection;
 import java.util.List;
 
 @Getter

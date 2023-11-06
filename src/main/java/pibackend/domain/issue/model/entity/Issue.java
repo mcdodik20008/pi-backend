@@ -1,13 +1,12 @@
 package pibackend.domain.issue.model.entity;
 
-import java.time.LocalDate;
-
-import javax.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.customer.model.entity.Customer;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -31,5 +30,5 @@ public class Issue {
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
-    
+
 }

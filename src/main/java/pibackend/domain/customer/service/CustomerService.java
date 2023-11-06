@@ -1,13 +1,9 @@
 package pibackend.domain.customer.service;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
@@ -19,7 +15,6 @@ import pibackend.domain.customer.repository.CustomerRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional

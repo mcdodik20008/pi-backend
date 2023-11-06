@@ -17,15 +17,15 @@ public class BookSubjectController {
 
     @GetMapping
     public Page<BookSubjectView> getPage(Pageable pageable,
-            @RequestParam(required = false) Long filterId,
-            @RequestParam(required = false) String filterSubject) {
-                if (filterId != null) {
-                    return service.getPageByIdLike(pageable, filterId);
-                }
-                if (filterSubject != null) {
-                    return service.getPageBySubjectLike(pageable, filterSubject);
-                }
-                return service.getPage(pageable);
+                                         @RequestParam(required = false) Long filterId,
+                                         @RequestParam(required = false) String filterSubject) {
+        if (filterId != null) {
+            return service.getPageByIdLike(pageable, filterId);
+        }
+        if (filterSubject != null) {
+            return service.getPageBySubjectLike(pageable, filterSubject);
+        }
+        return service.getPage(pageable);
     }
 
     @GetMapping("/{id}")
