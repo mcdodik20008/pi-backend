@@ -21,7 +21,7 @@ create table author
     bio         text,
     birth_date  varchar(20),
     death_date  varchar(20),
-    wikipedia   varchar(255),
+    wikipedia   varchar(255)
 );
 
 create table book_author
