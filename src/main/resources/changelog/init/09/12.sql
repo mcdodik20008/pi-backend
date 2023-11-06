@@ -12,9 +12,11 @@ create table book
 );
 
 --changeset author:kaspshitskii-12-09-add-author
+create sequence author_id_sqns start 1000;
+
 create table author
 (
-    uuid        varchar(128) not null,
+    uuid        text primary key default 'C'||nextval('author_id_sqns'),
     author_name varchar(100) not null,
     bio         text,
     birth_date  varchar(20),

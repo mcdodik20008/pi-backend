@@ -2,12 +2,11 @@ package pibackend.domain.author.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import pibackend.domain.book.model.entity.Book;
+import pibackend.infrastructure.StringPrefixedSequenceIdGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -16,7 +15,14 @@ import java.util.List;
 public class Author {
 
     @Id
-    @Column(name = "uuid", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authorId")
+    @GenericGenerator(
+            name = "authorId",
+            strategy = "pibackend.infrastructure.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "author_id_sqns"),
+                    @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+                    @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "C")})
     private String uuid;
 
     @Column(name = "author_name", nullable = false)
@@ -36,4 +42,5 @@ public class Author {
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
+
 }

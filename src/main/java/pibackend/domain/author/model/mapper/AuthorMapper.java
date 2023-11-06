@@ -3,6 +3,7 @@ package pibackend.domain.author.model.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import pibackend.domain.author.model.entity.Author;
+import pibackend.domain.author.model.view.AuthorViewCreate;
 import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
 
@@ -16,6 +17,8 @@ public interface AuthorMapper {
     Author toEntity(AuthorViewReadOne view);
 
     Author toEntity(AuthorViewReadList view);
+
+    Author toEntity(AuthorViewCreate view);
 
     Author toEntity(@MappingTarget Author entity, AuthorViewReadOne view);
 

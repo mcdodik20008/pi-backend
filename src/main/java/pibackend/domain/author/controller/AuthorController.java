@@ -10,6 +10,7 @@ import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.model.mapper.UserMapper;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.repository.UserRepository;
+import pibackend.domain.author.model.view.AuthorViewCreate;
 import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.service.AuthorService;
@@ -58,9 +59,8 @@ public class AuthorController {
     }
 
     @PostMapping
-    public AuthorViewReadOne create(@RequestBody AuthorViewReadList view) {
-        String id = service.create(view);
-        return service.getOne(id);
+    public String create(@RequestBody AuthorViewCreate view) {
+        return service.create(view);
     }
 
     @PutMapping("/{id}")

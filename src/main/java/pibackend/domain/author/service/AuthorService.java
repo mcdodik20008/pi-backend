@@ -8,6 +8,7 @@ import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.author.model.entity.Author;
 import pibackend.domain.author.model.mapper.AuthorMapper;
+import pibackend.domain.author.model.view.AuthorViewCreate;
 import pibackend.domain.author.model.view.AuthorViewReadList;
 import pibackend.domain.author.model.view.AuthorViewReadOne;
 import pibackend.domain.author.repository.AuthorRepository;
@@ -51,9 +52,9 @@ public class AuthorService {
                         new RuntimeException("Не найден автор с идентификатором: " + id));
     }
 
-    public String create(AuthorViewReadList view) {
+    public String create(AuthorViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.CUD);
-        Author entity = mapper.toEntity(view);
+        var entity = mapper.toEntity(view);
         return repository.save(entity).getUuid();
     }
 
