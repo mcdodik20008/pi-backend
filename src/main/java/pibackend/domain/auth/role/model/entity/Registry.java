@@ -7,5 +7,5 @@ public enum Registry {
     BOOK_COVERS,
     BOOK_SUBJECT,
     ISSUES,
-    ALL, CUSTOMER
+    ALL, CLIENT
 }
