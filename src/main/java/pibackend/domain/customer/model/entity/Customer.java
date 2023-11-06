@@ -20,7 +20,7 @@ public class Customer {
             name = "customerId",
             strategy = "pibackend.infrastructure.StringPrefixedSequenceIdGenerator",
             parameters = {
-                    @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "customer_id"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "customer_id_sqns"),
                     @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
                     @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "C")})
     private String id;

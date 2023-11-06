@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookViewReadList {
-
-    private String id;
+public class BookViewCreate {
 
     private String title;
 

@@ -2,7 +2,9 @@ package pibackend.domain.book.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import pibackend.domain.author.model.entity.Author;
+import pibackend.infrastructure.StringPrefixedSequenceIdGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +15,15 @@ import java.util.List;
 public class Book {
 
     @Id
-    @Column(name = "uuid")
-    private String uuid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookId")
+    @GenericGenerator(
+            name = "bookId",
+            strategy = "pibackend.infrastructure.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "book_id_sqns"),
+                    @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+                    @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "B")})
+    private String id;
 
     @Column(name = "title")
     private String title;

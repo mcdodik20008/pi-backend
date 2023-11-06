@@ -1,13 +1,14 @@
 --liquibase formatted sql
 --changeset author:kaspshitskii-12-09-add-book
+create sequence book_id_sqns start 1000;
+
 create table book
 (
-    uuid               varchar(128) not null,
+    id                 text primary key default 'B'||nextval('book_id_sqns'),
     title              varchar(500) not null,
-    sub_title           varchar(500),
+    sub_title          varchar(500),
     first_publish_date varchar(20),
-    description        text,
-    constraint PK_book_uuid primary key (uuid)
+    description        text
 );
 
 --changeset author:kaspshitskii-12-09-add-author
