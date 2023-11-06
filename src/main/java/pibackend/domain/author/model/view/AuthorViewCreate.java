@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class AuthorViewCreate {
 
-
     private String name;
 
     private String bio;

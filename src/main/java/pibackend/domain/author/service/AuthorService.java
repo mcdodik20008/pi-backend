@@ -52,14 +52,14 @@ public class AuthorService {
                         new RuntimeException("Не найден автор с идентификатором: " + id));
     }
 
-    public String create(AuthorViewCreate view) {
+    public AuthorViewCreate create(AuthorViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.CUD);
         var birthDate = view.getBirthDate().split("T")[0];
         var deathDate = view.getDeathDate().split("T")[0];
         var entity = mapper.toEntity(view);
         entity.setBirthDate(birthDate);
         entity.setDeathDate(deathDate);
-        return repository.save(entity).getUuid();
+        return mapper.toViewCreate(repository.save(entity));
     }
 
     public void update(String id, AuthorViewReadList view) {

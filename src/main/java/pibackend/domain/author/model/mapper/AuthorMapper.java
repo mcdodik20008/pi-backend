@@ -14,6 +14,8 @@ public interface AuthorMapper {
 
     AuthorViewReadOne toViewReadOne(Author entity);
 
+    AuthorViewCreate toViewCreate(Author entity);
+
     Author toEntity(AuthorViewReadOne view);
 
     Author toEntity(AuthorViewReadList view);

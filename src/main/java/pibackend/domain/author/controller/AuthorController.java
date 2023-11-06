@@ -59,7 +59,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    public String create(@RequestBody AuthorViewCreate view) {
+    public AuthorViewCreate create(@RequestBody AuthorViewCreate view) {
         return service.create(view);
     }
 
