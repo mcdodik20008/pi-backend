@@ -2,6 +2,8 @@ package pibackend.domain.dataimport.issue.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import pibackend.domain.book.repository.BookRepository;
+import pibackend.domain.customer.repository.CustomerRepository;
 import pibackend.domain.issue.model.entity.Issue;
 import pibackend.domain.issue.repository.IssueRepository;
 
@@ -20,12 +24,15 @@ import pibackend.domain.issue.repository.IssueRepository;
 public class ImportIssueService {
 
     private final IssueRepository repository;
+    private final BookRepository bookRepository;
+    private final CustomerRepository customerRepository;
 
     public void save(MultipartFile file) {
         try {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
             Sheet sheet = workbook.getSheet("issues");
             Iterator<Row> rows = sheet.iterator();
             List<Issue> issues = new ArrayList<Issue>();
@@ -43,19 +50,15 @@ public class ImportIssueService {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            issue.setId((long)currentCell.getNumericCellValue());
-                            break;
-                        case 1:
-                            issue.setDateOfIssue(formatter.formatCellValue(currentCell));
-                            break;
+                            issue.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                         case 2:
-                            issue.setReturnUntil(formatter.formatCellValue(currentCell));
-                            break;
-                        case 3:
-                            issue.setCustomer(formatter.formatCellValue(currentCell));
+                            issue.setCustomer(customerRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                             break;
                         case 4:
-                            issue.setBook(formatter.formatCellValue(currentCell));
+                            issue.setDateOfIssue(simpleDateFormat.parse(formatter.formatCellValue(currentCell)));
+                            break;
+                        case 5:
+                            issue.setReturnUntil(simpleDateFormat.parse(formatter.formatCellValue(currentCell)));
                             break;
                         default:
                             break;
@@ -67,6 +70,8 @@ public class ImportIssueService {
             workbook.close();
             saveExcelData(issues);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

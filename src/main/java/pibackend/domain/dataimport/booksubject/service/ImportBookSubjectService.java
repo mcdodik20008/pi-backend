@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import pibackend.domain.book.repository.BookRepository;
 import pibackend.domain.booksubject.model.entity.BookSubject;
 import pibackend.domain.booksubject.repository.BookSubjectRepository;
 
@@ -20,6 +21,7 @@ import pibackend.domain.booksubject.repository.BookSubjectRepository;
 public class ImportBookSubjectService {
 
     private final BookSubjectRepository repository;
+    private final BookRepository bookRepository;
     
     public void save(MultipartFile file) {
         try {
@@ -43,25 +45,13 @@ public class ImportBookSubjectService {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            subject.setId(formatter.formatCellValue(currentCell));
+                            subject.setId((long)currentCell.getNumericCellValue());
                             break;
                         case 1:
-                            subject.setName(formatter.formatCellValue(currentCell));
+                            subject.setSubject(formatter.formatCellValue(currentCell));
                             break;
                         case 2:
-                            subject.setAddress(formatter.formatCellValue(currentCell));
-                            break;
-                        case 3:
-                            subject.setZip(formatter.formatCellValue(currentCell));
-                            break;
-                        case 4:
-                            subject.setCity(formatter.formatCellValue(currentCell));
-                            break;
-                        case 5:
-                            subject.setPhone(formatter.formatCellValue(currentCell));
-                            break;
-                        case 6:
-                            subject.setEmail(formatter.formatCellValue(currentCell));
+                            subject.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                             break;
                         default:
                             break;

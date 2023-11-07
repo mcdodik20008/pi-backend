@@ -5,8 +5,9 @@ import lombok.Setter;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.customer.model.entity.Customer;
 
+import java.util.Date;
+
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,18 +18,18 @@ public class Issue {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "date_of_issue", nullable = false)
-    private LocalDate dateOfIssue;
+    @Column(name = "date_of_issue")
+    private Date dateOfIssue;
 
-    @Column(name = "return_until", nullable = false)
-    private LocalDate returnUntil;
+    @Column(name = "return_until")
+    private Date returnUntil;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
+    @JoinColumn(name = "book_id")
     private Book book;
 
 }
