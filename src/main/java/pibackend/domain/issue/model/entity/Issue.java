@@ -5,9 +5,8 @@ import lombok.Setter;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.customer.model.entity.Customer;
 
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter

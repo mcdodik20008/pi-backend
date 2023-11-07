@@ -15,6 +15,7 @@ import pibackend.domain.customer.repository.CustomerRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -67,6 +68,10 @@ public class CustomerService {
     public void delete(String id) {
         PrivilegeService.checkPrivilege(Registry.CLIENT, Level.CUD);
         repository.deleteById(id);
+    }
+
+    public List<Customer> getList() {
+        return repository.findAll();
     }
 
 }

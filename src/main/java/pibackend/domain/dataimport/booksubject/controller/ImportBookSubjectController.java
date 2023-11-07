@@ -1,11 +1,10 @@
 package pibackend.domain.dataimport.booksubject.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import lombok.RequiredArgsConstructor;
 import pibackend.domain.dataimport.booksubject.service.ImportBookSubjectService;
 
 @CrossOrigin
@@ -13,7 +12,7 @@ import pibackend.domain.dataimport.booksubject.service.ImportBookSubjectService;
 @RequiredArgsConstructor
 @RequestMapping(value = "/import", produces = "application/json")
 public class ImportBookSubjectController {
-    
+
     private final ImportBookSubjectService service;
 
     @PostMapping("/book_subject")
@@ -27,5 +26,5 @@ public class ImportBookSubjectController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
     }
-    
+
 }

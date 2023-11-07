@@ -15,6 +15,7 @@ import pibackend.domain.author.repository.AuthorRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -73,5 +74,9 @@ public class AuthorService {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.CUD);
         getObject(id);
         repository.deleteById(id);
+    }
+
+    public List<Author> getList() {
+        return repository.findAll();
     }
 }
