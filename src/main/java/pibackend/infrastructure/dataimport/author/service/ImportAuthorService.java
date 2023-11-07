@@ -1,12 +1,12 @@
-package pibackend.domain.dataimport.book.service;
+package pibackend.infrastructure.dataimport.author.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pibackend.domain.book.model.entity.Book;
-import pibackend.domain.book.repository.BookRepository;
+import pibackend.domain.author.model.entity.Author;
+import pibackend.domain.author.repository.AuthorRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,18 +16,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ImportBookService {
+public class ImportAuthorService {
 
-    private final BookRepository repository;
+    private final AuthorRepository repository;
 
     public void save(MultipartFile file) {
         try {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            Sheet sheet = workbook.getSheet("books");
+            Sheet sheet = workbook.getSheet("authors");
             Iterator<Row> rows = sheet.iterator();
-            List<Book> books = new ArrayList<Book>();
+            List<Author> authors = new ArrayList<Author>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -36,42 +36,45 @@ public class ImportBookService {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                Book book = new Book();
+                Author author = new Author();
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            book.setId(formatter.formatCellValue(currentCell));
+                            author.setUuid(formatter.formatCellValue(currentCell));
                             break;
                         case 1:
-                            book.setTitle(formatter.formatCellValue(currentCell));
+                            author.setName(formatter.formatCellValue(currentCell));
                             break;
                         case 2:
-                            book.setSubTitle(formatter.formatCellValue(currentCell));
+                            author.setBio(formatter.formatCellValue(currentCell));
                             break;
                         case 3:
-                            book.setFirstPublishDate(formatter.formatCellValue(currentCell));
+                            author.setBirthDate(formatter.formatCellValue(currentCell));
                             break;
                         case 4:
-                            book.setDescription(formatter.formatCellValue(currentCell));
+                            author.setDeathDate(formatter.formatCellValue(currentCell));
+                            break;
+                        case 5:
+                            author.setWikipedia(formatter.formatCellValue(currentCell));
                             break;
                         default:
                             break;
                     }
                     cellIdx++;
                 }
-                books.add(book);
+                authors.add(author);
             }
             workbook.close();
-            saveExcelData(books);
+            saveExcelData(authors);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveExcelData(List<Book> books) {
-        repository.saveAll(books);
+    private void saveExcelData(List<Author> authors) {
+        repository.saveAll(authors);
     }
 
 }

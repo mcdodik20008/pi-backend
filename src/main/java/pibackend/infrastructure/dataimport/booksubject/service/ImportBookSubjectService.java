@@ -1,4 +1,4 @@
-package pibackend.domain.dataimport.bookcover.service;
+package pibackend.infrastructure.dataimport.booksubject.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
@@ -6,8 +6,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pibackend.domain.book.repository.BookRepository;
-import pibackend.domain.bookcovers.model.entity.BookCover;
-import pibackend.domain.bookcovers.repository.BookCoverRepository;
+import pibackend.domain.booksubject.model.entity.BookSubject;
+import pibackend.domain.booksubject.repository.BookSubjectRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,9 +17,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ImportBookCoverService {
+public class ImportBookSubjectService {
 
-    private final BookCoverRepository repository;
+    private final BookSubjectRepository repository;
     private final BookRepository bookRepository;
 
     public void save(MultipartFile file) {
@@ -27,9 +27,9 @@ public class ImportBookCoverService {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            Sheet sheet = workbook.getSheet("book_covers");
+            Sheet sheet = workbook.getSheet("book_subjects");
             Iterator<Row> rows = sheet.iterator();
-            List<BookCover> covers = new ArrayList<BookCover>();
+            List<BookSubject> subjects = new ArrayList<BookSubject>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -38,35 +38,37 @@ public class ImportBookCoverService {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                BookCover cover = new BookCover();
+                BookSubject subject = new BookSubject();
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            cover.setId((long) currentCell.getNumericCellValue());
+                            subject.setId((long) currentCell.getNumericCellValue());
                             break;
                         case 1:
-                            cover.setCoverFile((int) currentCell.getNumericCellValue());
+                            subject.setSubject(formatter.formatCellValue(currentCell));
                             break;
                         case 2:
-                            cover.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
+                            subject.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                             break;
                         default:
                             break;
                     }
                     cellIdx++;
                 }
-                covers.add(cover);
+                subjects.add(subject);
             }
             workbook.close();
-            saveExcelData(covers);
+            saveExcelData(subjects);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveExcelData(List<BookCover> covers) {
-        repository.saveAll(covers);
+    private void saveExcelData(List<BookSubject> subjects) {
+        repository.saveAll(subjects);
     }
+
+
 }

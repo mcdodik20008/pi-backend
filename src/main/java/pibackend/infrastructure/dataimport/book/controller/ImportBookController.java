@@ -1,11 +1,11 @@
-package pibackend.domain.dataimport.book.controller;
+package pibackend.infrastructure.dataimport.book.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pibackend.domain.dataimport.book.service.ImportBookService;
+import pibackend.infrastructure.dataimport.book.service.ImportBookService;
 
 @CrossOrigin
 @RestController

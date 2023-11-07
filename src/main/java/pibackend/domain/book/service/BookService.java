@@ -53,13 +53,13 @@ public class BookService {
                         new RuntimeException("Не найдена книга с идентификатором: " + id));
     }
 
-    public String create(BookViewCreate view) {
+    public String create(BookViewReadOne view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(view);
         return repository.save(entity).getId();
     }
 
-    public void update(String id, BookViewReadList view) {
+    public void update(String id, BookViewReadOne view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);

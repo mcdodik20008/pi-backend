@@ -1,12 +1,13 @@
-package pibackend.domain.dataimport.customer.service;
+package pibackend.infrastructure.dataimport.bookcover.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pibackend.domain.customer.model.entity.Customer;
-import pibackend.domain.customer.repository.CustomerRepository;
+import pibackend.domain.book.repository.BookRepository;
+import pibackend.domain.bookcovers.model.entity.BookCover;
+import pibackend.domain.bookcovers.repository.BookCoverRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,18 +17,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ImportCustomerService {
+public class ImportBookCoverService {
 
-    private final CustomerRepository repository;
+    private final BookCoverRepository repository;
+    private final BookRepository bookRepository;
 
     public void save(MultipartFile file) {
         try {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            Sheet sheet = workbook.getSheet("customers");
+            Sheet sheet = workbook.getSheet("book_covers");
             Iterator<Row> rows = sheet.iterator();
-            List<Customer> customers = new ArrayList<Customer>();
+            List<BookCover> covers = new ArrayList<BookCover>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -36,48 +38,35 @@ public class ImportCustomerService {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                Customer customer = new Customer();
+                BookCover cover = new BookCover();
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            customer.setId(formatter.formatCellValue(currentCell));
+                            cover.setId((long) currentCell.getNumericCellValue());
                             break;
                         case 1:
-                            customer.setName(formatter.formatCellValue(currentCell));
+                            cover.setCoverFile((int) currentCell.getNumericCellValue());
                             break;
                         case 2:
-                            customer.setAddress(formatter.formatCellValue(currentCell));
-                            break;
-                        case 3:
-                            customer.setZip(formatter.formatCellValue(currentCell));
-                            break;
-                        case 4:
-                            customer.setCity(formatter.formatCellValue(currentCell));
-                            break;
-                        case 5:
-                            customer.setPhone(formatter.formatCellValue(currentCell));
-                            break;
-                        case 6:
-                            customer.setEmail(formatter.formatCellValue(currentCell));
+                            cover.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                             break;
                         default:
                             break;
                     }
                     cellIdx++;
                 }
-                customers.add(customer);
+                covers.add(cover);
             }
             workbook.close();
-            saveExcelData(customers);
+            saveExcelData(covers);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveExcelData(List<Customer> customers) {
-        repository.saveAll(customers);
+    private void saveExcelData(List<BookCover> covers) {
+        repository.saveAll(covers);
     }
-
 }

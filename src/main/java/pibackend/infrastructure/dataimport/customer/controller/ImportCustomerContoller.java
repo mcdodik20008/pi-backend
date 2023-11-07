@@ -1,21 +1,21 @@
-package pibackend.domain.dataimport.bookcover.controller;
+package pibackend.infrastructure.dataimport.customer.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pibackend.domain.dataimport.bookcover.service.ImportBookCoverService;
+import pibackend.infrastructure.dataimport.customer.service.ImportCustomerService;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/import", produces = "application/json")
-public class ImportBookCoverController {
+public class ImportCustomerContoller {
 
-    private final ImportBookCoverService service;
+    private final ImportCustomerService service;
 
-    @PostMapping("/book_cover")
+    @PostMapping("/customer")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             service.save(file);

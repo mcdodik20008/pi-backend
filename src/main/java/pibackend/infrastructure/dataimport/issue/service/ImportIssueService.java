@@ -1,33 +1,40 @@
-package pibackend.domain.dataimport.author.service;
+package pibackend.infrastructure.dataimport.issue.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pibackend.domain.author.model.entity.Author;
-import pibackend.domain.author.repository.AuthorRepository;
+import pibackend.domain.book.repository.BookRepository;
+import pibackend.domain.customer.repository.CustomerRepository;
+import pibackend.domain.issue.model.entity.Issue;
+import pibackend.domain.issue.repository.IssueRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ImportAuthorService {
+public class ImportIssueService {
 
-    private final AuthorRepository repository;
+    private final IssueRepository repository;
+    private final BookRepository bookRepository;
+    private final CustomerRepository customerRepository;
 
     public void save(MultipartFile file) {
         try {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            Sheet sheet = workbook.getSheet("authors");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            Sheet sheet = workbook.getSheet("issues");
             Iterator<Row> rows = sheet.iterator();
-            List<Author> authors = new ArrayList<Author>();
+            List<Issue> issues = new ArrayList<Issue>();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -36,45 +43,40 @@ public class ImportAuthorService {
                     continue;
                 }
                 Iterator<Cell> cellsInRow = currentRow.iterator();
-                Author author = new Author();
+                Issue issue = new Issue();
                 int cellIdx = 0;
                 while (cellsInRow.hasNext()) {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            author.setUuid(formatter.formatCellValue(currentCell));
-                            break;
-                        case 1:
-                            author.setName(formatter.formatCellValue(currentCell));
-                            break;
+                            issue.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                         case 2:
-                            author.setBio(formatter.formatCellValue(currentCell));
-                            break;
-                        case 3:
-                            author.setBirthDate(formatter.formatCellValue(currentCell));
+                            issue.setCustomer(customerRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                             break;
                         case 4:
-                            author.setDeathDate(formatter.formatCellValue(currentCell));
+                            issue.setDateOfIssue(simpleDateFormat.parse(formatter.formatCellValue(currentCell)));
                             break;
                         case 5:
-                            author.setWikipedia(formatter.formatCellValue(currentCell));
+                            issue.setReturnUntil(simpleDateFormat.parse(formatter.formatCellValue(currentCell)));
                             break;
                         default:
                             break;
                     }
                     cellIdx++;
                 }
-                authors.add(author);
+                issues.add(issue);
             }
             workbook.close();
-            saveExcelData(authors);
+            saveExcelData(issues);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private void saveExcelData(List<Author> authors) {
-        repository.saveAll(authors);
+    private void saveExcelData(List<Issue> issues) {
+        repository.saveAll(issues);
     }
 
 }

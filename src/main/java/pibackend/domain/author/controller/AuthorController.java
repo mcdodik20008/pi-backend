@@ -70,7 +70,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public AuthorViewReadOne update(@PathVariable String id, @RequestBody AuthorViewReadList view) {
+    public AuthorViewReadOne update(@PathVariable String id, @RequestBody AuthorViewReadOne view) {
         service.update(id, view);
         return service.getOne(id);
     }
