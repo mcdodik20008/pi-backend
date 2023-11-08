@@ -5,7 +5,7 @@ import lombok.Setter;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.customer.model.entity.Customer;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,9 +13,11 @@ public class IssueView {
 
     private Long id;
 
-    private LocalDate dateOfIssue;
+    private Date dateOfIssue;
 
-    private LocalDate returnUntil;
+    private Date returnUntil;
+
+    private boolean isReturned;
 
     private Customer customer;
 

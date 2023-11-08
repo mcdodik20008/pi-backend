@@ -23,6 +23,9 @@ public class Issue {
     @Column(name = "return_until")
     private Date returnUntil;
 
+    @Column(name = "is_returned")
+    private boolean isReturned;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
