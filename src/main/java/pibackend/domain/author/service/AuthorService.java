@@ -55,11 +55,15 @@ public class AuthorService {
 
     public AuthorViewCreate create(AuthorViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.CUD);
-        var birthDate = view.getBirthDate().split("T")[0];
-        var deathDate = view.getDeathDate().split("T")[0];
         var entity = mapper.toEntity(view);
-        entity.setBirthDate(birthDate);
-        entity.setDeathDate(deathDate);
+        if (view.getBirthDate() != null) {
+            var birthDate = view.getBirthDate().split("T")[0];
+            entity.setBirthDate(birthDate);
+        }
+        if (view.getDeathDate() != null) {
+            var deathDate = view.getDeathDate().split("T")[0];
+            entity.setDeathDate(deathDate);
+        }
         return mapper.toViewCreate(repository.save(entity));
     }
 
