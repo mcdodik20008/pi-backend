@@ -8,7 +8,7 @@ import pibackend.domain.book.model.entity.Book;
 
 public interface BookRepository extends JpaRepository<Book, String>, QuerydslPredicateExecutor<Book> {
 
-    Page<Book> findByIdContainingIgnoreCase(String id, Pageable pageable);
+    Page<Book> findByUuidContainingIgnoreCase(String id, Pageable pageable);
 
     Page<Book> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 }

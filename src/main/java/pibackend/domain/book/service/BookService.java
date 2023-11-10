@@ -8,7 +8,6 @@ import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.book.model.mapper.BookMapper;
-import pibackend.domain.book.model.view.BookViewCreate;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.repository.BookRepository;
@@ -28,7 +27,7 @@ public class BookService {
 
     public Page<BookViewReadList> getPageByIdLike(Pageable pageable, String id) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.SELECT);
-        return repository.findByIdContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
+        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
     }
 
     public Page<BookViewReadList> getPageByTitleLike(Pageable pageable, String title) {
