@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class BookViewReadList {
 
-    private String id;
+    private String uuid;
 
     private String title;
 

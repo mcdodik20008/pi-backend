@@ -72,7 +72,7 @@ public class IssueExcelExporter {
         for (var issue : issues) {
             var row = sheet.createRow(rowCount);
             var cellCount = 0;
-            createCell(row, cellCount++, issue.getBook().getId(), style);
+            createCell(row, cellCount++, issue.getBook().getUuid(), style);
             createCell(row, cellCount++, issue.getBook().getTitle(), style);
             createCell(row, cellCount++, issue.getCustomer().getId(), style);
             createCell(row, cellCount++, issue.getCustomer().getName(), style);

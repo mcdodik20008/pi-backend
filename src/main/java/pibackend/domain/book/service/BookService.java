@@ -56,13 +56,13 @@ public class BookService {
     public String create(BookViewReadOne view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(view);
-        return repository.save(entity).getId();
+        return repository.save(entity).getUuid();
     }
 
     public void update(String id, BookViewReadOne view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(getObject(id), view);
-        entity.setId(id);
+        entity.setUuid(id);
         repository.save(entity);
     }
 

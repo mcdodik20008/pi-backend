@@ -42,7 +42,7 @@ public class ImportBookService {
                     Cell currentCell = cellsInRow.next();
                     switch (cellIdx) {
                         case 0:
-                            book.setId(formatter.formatCellValue(currentCell));
+                            book.setUuid(formatter.formatCellValue(currentCell));
                             break;
                         case 1:
                             book.setTitle(formatter.formatCellValue(currentCell));
