@@ -14,6 +14,7 @@ import java.util.Date;
 public class Issue {
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 

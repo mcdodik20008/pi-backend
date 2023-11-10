@@ -12,6 +12,8 @@ import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.repository.IssueRepository;
 import pibackend.infrastructure.PrivilegeService;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 @Service
@@ -62,5 +64,10 @@ public class IssueService {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
         getObject(id);
         repository.deleteById(id);
+    }
+
+    public List<Issue> getList() {
+        var issues = repository.findAll();
+        return issues;
     }
 }

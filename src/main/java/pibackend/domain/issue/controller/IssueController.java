@@ -1,11 +1,19 @@
 package pibackend.domain.issue.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.service.IssueService;
+import pibackend.infrastructure.export.IssueExcelExporter;
 
 @CrossOrigin
 @RestController
@@ -44,6 +52,21 @@ public class IssueController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        var dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        var currentDateTime = dateFormatter.format(new Date());
+
+        var headerKey = "Content-Disposition";
+        var headerValue = "attachment; filename=issues_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        var issues = service.getList();
+        var excelExporter = new IssueExcelExporter(issues);
+        excelExporter.export(response);
     }
 
 }
