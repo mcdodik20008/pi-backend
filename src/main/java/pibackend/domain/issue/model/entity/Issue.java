@@ -6,7 +6,8 @@ import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.customer.model.entity.Customer;
 
 import javax.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,10 +20,10 @@ public class Issue {
     private Long id;
 
     @Column(name = "date_of_issue")
-    private Date dateOfIssue;
+    private LocalDate dateOfIssue;
 
     @Column(name = "return_until")
-    private Date returnUntil;
+    private LocalDate returnUntil;
 
     @Column(name = "is_returned")
     private boolean isReturned;

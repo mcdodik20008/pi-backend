@@ -25,11 +25,6 @@ public class IssueService {
 
     private final IssueRepository repository;
 
-    public Page<IssueView> getPageByIdLike(Pageable pageable, Long id) {
-        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
-        return repository.findByIdContaining(id, pageable).map(mapper::toView);
-    }
-
     public Page<IssueView> getPage(Pageable pageable) {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findAll(pageable).map(mapper::toView);
@@ -66,8 +61,19 @@ public class IssueService {
         repository.deleteById(id);
     }
 
+    public List<Issue> getFiltered(String filter) {
+        List<Issue> byCustomerName = repository.findByCustomerName(filter);
+        List<Issue> byBookTitle = repository.findByBookTitle(filter);
+        return byCustomerName.size() > 0 ? byCustomerName : byBookTitle;
+    }
+
     public List<Issue> getList() {
-        var issues = repository.findAll();
-        return issues;
+        return repository.findAll();
+    }
+
+    public Page<IssueView> getPageFiltered(Pageable pageable, String filter) {
+        Page<IssueView> byCustomerName = repository.findByCustomerName(filter, pageable).map(mapper::toView);
+        Page<IssueView> byBookTitle = repository.findByBookTitle(filter, pageable).map(mapper::toView);
+        return byCustomerName.hasContent() ? byCustomerName : byBookTitle;
     }
 }

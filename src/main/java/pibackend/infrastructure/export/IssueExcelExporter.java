@@ -1,7 +1,6 @@
 package pibackend.infrastructure.export;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

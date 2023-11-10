@@ -12,8 +12,7 @@ import pibackend.domain.issue.repository.IssueRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +30,6 @@ public class ImportIssueService {
             InputStream is = file.getInputStream();
             Workbook workbook = new XSSFWorkbook(is);
             DataFormatter formatter = new DataFormatter();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
             Sheet sheet = workbook.getSheet("issues");
             Iterator<Row> rows = sheet.iterator();
             List<Issue> issues = new ArrayList<Issue>();
@@ -54,10 +52,10 @@ public class ImportIssueService {
                             issue.setCustomer(customerRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));
                             break;
                         case 4:
-                            issue.setDateOfIssue(simpleDateFormat.parse(formatter.formatCellValue(currentCell)));
+                            issue.setDateOfIssue(LocalDate.parse(formatter.formatCellValue(currentCell)));
                             break;
                         case 5:
-                            issue.setReturnUntil(simpleDateFormat.parse(formatter.formatCellValue(currentCell)));
+                            issue.setReturnUntil(LocalDate.parse(formatter.formatCellValue(currentCell)));
                             break;
                         default:
                             break;
@@ -69,8 +67,6 @@ public class ImportIssueService {
             workbook.close();
             saveExcelData(issues);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

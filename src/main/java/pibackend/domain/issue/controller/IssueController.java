@@ -25,9 +25,9 @@ public class IssueController {
 
     @GetMapping
     public Page<IssueView> getPage(Pageable pageable,
-                                   @RequestParam(required = false) Long filterId) {
-        if (filterId != null) {
-            return service.getPageByIdLike(pageable, filterId);
+                                   @RequestParam(required = false) String filter) {
+        if (filter != null) {
+            return service.getPageFiltered(pageable, filter);
         }
         return service.getPage(pageable);
     }
@@ -55,7 +55,8 @@ public class IssueController {
     }
 
     @GetMapping("/export/excel")
-    public void exportToExcel(HttpServletResponse response) throws IOException {
+    public void exportToExcel(HttpServletResponse response,
+                              @RequestParam(required = false) String filter) throws IOException {
         response.setContentType("application/octet-stream");
         var dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         var currentDateTime = dateFormatter.format(new Date());
@@ -64,7 +65,7 @@ public class IssueController {
         var headerValue = "attachment; filename=issues_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
-        var issues = service.getList();
+        var issues = filter == null ? service.getList() : service.getFiltered(filter);
         var excelExporter = new IssueExcelExporter(issues);
         excelExporter.export(response);
     }
