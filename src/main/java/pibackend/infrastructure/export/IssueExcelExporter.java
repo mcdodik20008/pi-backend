@@ -1,7 +1,10 @@
 package pibackend.infrastructure.export;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -54,7 +57,9 @@ public class IssueExcelExporter {
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
         } else if (value instanceof Timestamp) {
-            cell.setCellValue((Timestamp) value);
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Timestamp ts = (Timestamp) value;
+            cell.setCellValue(df.format(ts.getTime()));
         } else {
             cell.setCellValue((String) value);
         }
