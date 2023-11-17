@@ -12,6 +12,7 @@
     <include file="init/10/22.sql" relativeToChangelogFile="true"/>
     <include file="init/10/26.sql" relativeToChangelogFile="true"/>
     <include file="init/11/08.sql" relativeToChangelogFile="true"/>
+    <include file="init/11/17.sql" relativeToChangelogFile="true"/>
 
     <include file="./data/09/12.sql" relativeToChangelogFile="true"/>
     <include file="./data/10/30.sql" relativeToChangelogFile="true"/>

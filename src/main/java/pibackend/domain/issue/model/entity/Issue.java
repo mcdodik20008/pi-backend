@@ -25,8 +25,8 @@ public class Issue {
     @Column(name = "return_until")
     private LocalDate returnUntil;
 
-    @Column(name = "is_returned")
-    private boolean isReturned;
+    @Column(name = "date_of_return")
+    private LocalDate dateOfReturn;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

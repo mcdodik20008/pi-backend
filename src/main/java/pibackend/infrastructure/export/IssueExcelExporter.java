@@ -1,9 +1,8 @@
 package pibackend.infrastructure.export;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -46,6 +45,7 @@ public class IssueExcelExporter {
         createCell(row, 3, "Customer", style);
         createCell(row, 4, "Date of issue", style);
         createCell(row, 5, "Return date", style);
+        createCell(row, 6, "Date of return", style);
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
@@ -55,10 +55,9 @@ public class IssueExcelExporter {
             cell.setCellValue((Integer) value);
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
-        } else if (value instanceof Timestamp) {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Timestamp ts = (Timestamp) value;
-            cell.setCellValue(df.format(ts.getTime()));
+        } else if (value instanceof LocalDate) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            cell.setCellValue(dtf.format((LocalDate) value));
         } else {
             cell.setCellValue((String) value);
         }
@@ -82,6 +81,7 @@ public class IssueExcelExporter {
             createCell(row, cellCount++, issue.getCustomer().getName(), style);
             createCell(row, cellCount++, issue.getDateOfIssue(), style);
             createCell(row, cellCount, issue.getReturnUntil(), style);
+            createCell(row, cellCount, issue.getDateOfReturn(), style);
 
             rowCount++;
         }

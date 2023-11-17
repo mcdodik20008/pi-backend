@@ -14,8 +14,12 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
 
     Page<Issue> findByBookTitle(String title, Pageable pageable);
 
+    Page<Issue> findByBookUuid(String filter, Pageable pageable);
+
     List<Issue> findByCustomerName(String name);
 
     List<Issue> findByBookTitle(String title);
+
+    List<Issue> findByBookUuid(String filter);
     
 }

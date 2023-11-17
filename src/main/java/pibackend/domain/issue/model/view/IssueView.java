@@ -17,7 +17,7 @@ public class IssueView {
 
     private LocalDate returnUntil;
 
-    private boolean isReturned;
+    private LocalDate dateOfReturn;
 
     private Customer customer;
 

@@ -63,8 +63,11 @@ public class IssueService {
 
     public List<Issue> getFiltered(String filter) {
         List<Issue> byCustomerName = repository.findByCustomerName(filter);
+        if (byCustomerName.size() > 0) return byCustomerName;
         List<Issue> byBookTitle = repository.findByBookTitle(filter);
-        return byCustomerName.size() > 0 ? byCustomerName : byBookTitle;
+        if (byBookTitle.size() > 0) return byBookTitle;
+        List<Issue> byBookId = repository.findByBookUuid(filter);
+        return byBookId;
     }
 
     public List<Issue> getList() {
@@ -73,7 +76,10 @@ public class IssueService {
 
     public Page<IssueView> getPageFiltered(Pageable pageable, String filter) {
         Page<IssueView> byCustomerName = repository.findByCustomerName(filter, pageable).map(mapper::toView);
+        if (byCustomerName.hasContent()) return byCustomerName;
         Page<IssueView> byBookTitle = repository.findByBookTitle(filter, pageable).map(mapper::toView);
-        return byCustomerName.hasContent() ? byCustomerName : byBookTitle;
+        if (byBookTitle.hasContent()) return byBookTitle;
+        Page<IssueView> byBookId = repository.findByBookUuid(filter, pageable).map(mapper::toView);
+        return byBookId;
     }
 }
