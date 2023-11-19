@@ -41,9 +41,9 @@ public class CustomerService {
         return repository.findAll(pageable).map(mapper::toViewList);
     }
 
-    public CustomerView getOne(String id) {
+    public CustomerViewList getOne(String id) {
         PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
-        return mapper.toView(getObject(id));
+        return mapper.toViewList(getObject(id));
     }
 
     public Customer getObject(String id) {
