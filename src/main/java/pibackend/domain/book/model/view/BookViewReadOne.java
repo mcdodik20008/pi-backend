@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class BookViewReadOne {
 
-    private String id;
+    private String uuid;
 
     private String title;
 

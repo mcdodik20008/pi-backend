@@ -24,6 +24,7 @@ public class Book {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.SEQUENCE_PARAM, value = "book_id_sqns"),
                     @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
                     @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "B")})
+    @Column(name = "id")
     private String uuid;
 
     @Column(name = "title")
