@@ -36,7 +36,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public CustomerView getOne(@PathVariable String id) {
+    public CustomerViewList getOne(@PathVariable String id) {
         return service.getOne(id);
     }
 

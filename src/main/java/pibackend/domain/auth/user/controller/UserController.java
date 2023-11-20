@@ -3,11 +3,14 @@ package pibackend.domain.auth.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.service.UserService;
+import pibackend.infrastructure.SecurityContext;
 import pibackend.infrastructure.export.UserExcelExporter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +30,13 @@ public class UserController {
     @GetMapping
     public Page<UserView> getList(Pageable pageable) {
         return service.getPage(pageable);
+    }
+
+    @Transactional
+    @GetMapping("/currentUser")
+    public UserView getCurrentUser() {
+        User user = SecurityContext.currentUser;
+        return service.getOne(user.getLogin());
     }
 
     @GetMapping("/{login}")
