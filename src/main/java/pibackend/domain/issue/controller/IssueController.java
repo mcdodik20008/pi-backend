@@ -32,6 +32,15 @@ public class IssueController {
         return service.getPage(pageable);
     }
 
+    @GetMapping("/history")
+    public Page<IssueView> getHistoryPage(Pageable pageable,
+                                   @RequestParam(required = false) String filter) {
+        if (filter != null) {
+            return service.getHistoryPageFiltered(pageable, filter);
+        }
+        return service.getHistoryPage(pageable);
+    }
+
     @GetMapping("/{id}")
     public IssueView getOne(@PathVariable Long id) {
         return service.getOne(id);

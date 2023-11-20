@@ -82,4 +82,18 @@ public class IssueService {
         Page<IssueView> byBookId = repository.findByBookUuid(filter, pageable).map(mapper::toView);
         return byBookId;
     }
+
+    public Page<IssueView> getHistoryPageFiltered(Pageable pageable, String filter) {
+        Page<IssueView> byCustomerName = repository.findByCustomerNameAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
+        if (byCustomerName.hasContent()) return byCustomerName;
+        Page<IssueView> byBookTitle = repository.findByBookTitleAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
+        if (byBookTitle.hasContent()) return byBookTitle;
+        Page<IssueView> byBookId = repository.findByBookUuidAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
+        return byBookId;
+    }
+
+    public Page<IssueView> getHistoryPage(Pageable pageable) {
+        // return repository.findAllAndDateOfReturnIsNotNull(pageable).map(mapper::toView);
+        return null;
+    }
 }
