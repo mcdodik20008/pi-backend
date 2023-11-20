@@ -28,6 +28,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
 
     Page<Issue> findByBookUuidAndDateOfReturnIsNotNull(String filter, Pageable pageable);
 
-    // Page<Issue> findAllAndDateOfReturnIsNotNull(Pageable pageable);
+    Page<Issue> findByDateOfReturnIsNotNull(Pageable pageable);
     
 }

@@ -93,7 +93,6 @@ public class IssueService {
     }
 
     public Page<IssueView> getHistoryPage(Pageable pageable) {
-        // return repository.findAllAndDateOfReturnIsNotNull(pageable).map(mapper::toView);
-        return null;
+        return repository.findByDateOfReturnIsNotNull(pageable).map(mapper::toView);
     }
 }
