@@ -62,6 +62,7 @@ public class IssueService {
     }
 
     public List<Issue> getFiltered(String filter) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         List<Issue> byCustomerName = repository.findByCustomerName(filter);
         if (byCustomerName.size() > 0) return byCustomerName;
         List<Issue> byBookTitle = repository.findByBookTitle(filter);
@@ -71,10 +72,12 @@ public class IssueService {
     }
 
     public List<Issue> getList() {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findAll();
     }
 
     public Page<IssueView> getPageFiltered(Pageable pageable, String filter) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         Page<IssueView> byCustomerName = repository.findByCustomerName(filter, pageable).map(mapper::toView);
         if (byCustomerName.hasContent()) return byCustomerName;
         Page<IssueView> byBookTitle = repository.findByBookTitle(filter, pageable).map(mapper::toView);
@@ -84,6 +87,7 @@ public class IssueService {
     }
 
     public Page<IssueView> getHistoryPageFiltered(Pageable pageable, String filter) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         Page<IssueView> byCustomerName = repository.findByCustomerNameAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
         if (byCustomerName.hasContent()) return byCustomerName;
         Page<IssueView> byBookTitle = repository.findByBookTitleAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
@@ -93,6 +97,23 @@ public class IssueService {
     }
 
     public Page<IssueView> getHistoryPage(Pageable pageable) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
         return repository.findByDateOfReturnIsNotNull(pageable).map(mapper::toView);
+    }
+
+    public Page<IssueView> getActualPageFiltered(Pageable pageable, String filter) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
+        Page<IssueView> byCustomerName = repository.findByCustomerNameAndDateOfReturnIsNull(filter, pageable).map(mapper::toView);
+        if (byCustomerName.hasContent()) return byCustomerName;
+        Page<IssueView> byBookTitle = repository.findByBookTitleAndDateOfReturnIsNull(filter, pageable).map(mapper::toView);
+        if (byBookTitle.hasContent()) return byBookTitle;
+        Page<IssueView> byBookId = repository.findByBookUuidAndDateOfReturnIsNull(filter, pageable).map(mapper::toView);
+        return byBookId;
+    }
+
+    public Page<IssueView> getActualPage(Pageable pageable) {
+        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
+        return repository.findByDateOfReturnIsNull(pageable).map(mapper::toView);
+
     }
 }
