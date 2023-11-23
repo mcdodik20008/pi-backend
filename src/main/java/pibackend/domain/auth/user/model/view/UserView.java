@@ -23,7 +23,6 @@ public class UserView {
 
     private String password;
 
-    @Getter(AccessLevel.NONE)
     private List<Role> roles;
 
     public Map<Registry, Set<Level>> getAllRegistry() {
