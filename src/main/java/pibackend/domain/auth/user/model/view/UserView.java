@@ -21,7 +21,7 @@ public class UserView {
 
     private String lastName;
 
-    private String password;
+    //private String password;
 
     private List<Role> roles;
 
