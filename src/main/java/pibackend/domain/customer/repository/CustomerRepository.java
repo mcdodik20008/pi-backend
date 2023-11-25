@@ -8,7 +8,7 @@ import pibackend.domain.customer.model.entity.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, String>, QuerydslPredicateExecutor<Customer> {
 
-    Page<Customer> findByIdContaining(String id, Pageable pageable);
+    Page<Customer> findByIdContainingIgnoreCase(String id, Pageable pageable);
 
     Page<Customer> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

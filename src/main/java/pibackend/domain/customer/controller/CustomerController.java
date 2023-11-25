@@ -24,13 +24,9 @@ public class CustomerController {
 
     @GetMapping
     public Page<CustomerViewList> getPage(Pageable pageable,
-                                          @RequestParam(required = false) String filterId,
-                                          @RequestParam(required = false) String filterName) {
-        if (filterId != null) {
-            return service.getPageByIdLike(pageable, filterId);
-        }
-        if (filterName != null) {
-            return service.getPageByNameLike(pageable, filterName);
+            @RequestParam(required = false) String filter) {
+        if (filter != null) {
+            return service.getPageFiltered(pageable, filter);
         }
         return service.getPage(pageable);
     }

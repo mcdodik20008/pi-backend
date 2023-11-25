@@ -26,14 +26,12 @@ public class CustomerService {
 
     private final CustomerMapper mapper;
 
-    public Page<CustomerViewList> getPageByIdLike(Pageable pageable, String id) {
+    public Page<CustomerViewList> getPageFiltered(Pageable pageable, String filter) {
         PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
-        return repository.findByIdContaining(id, pageable).map(mapper::toViewList);
-    }
-
-    public Page<CustomerViewList> getPageByNameLike(Pageable pageable, String name) {
-        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
-        return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toViewList);
+        Page<CustomerViewList> byId = repository.findByIdContainingIgnoreCase(filter, pageable).map(mapper::toViewList);
+        if (byId.hasContent()) return byId;
+        Page<CustomerViewList> byName = repository.findByNameContainingIgnoreCase(filter, pageable).map(mapper::toViewList);
+        return byName;
     }
 
     public Page<CustomerViewList> getPage(Pageable pageable) {
