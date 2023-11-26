@@ -25,14 +25,11 @@ public class BookService {
 
     private final BookMapper mapper;
 
-    public Page<BookViewReadList> getPageByIdLike(Pageable pageable, String id) {
+    public Page<BookViewReadList> getPageFiltered(Pageable pageable, String filter) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.SELECT);
-        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
-    }
-
-    public Page<BookViewReadList> getPageByTitleLike(Pageable pageable, String title) {
-        PrivilegeService.checkPrivilege(Registry.BOOK, Level.SELECT);
-        return repository.findByTitleContainingIgnoreCase(title, pageable).map(mapper::toViewReadList);
+        Page<BookViewReadList> byId = repository.findByUuidContainingIgnoreCase(filter, pageable).map(mapper::toViewReadList);
+        if (byId.hasContent()) return byId;
+        return repository.findByTitleContainingIgnoreCase(filter, pageable).map(mapper::toViewReadList);
     }
 
     public Page<BookViewReadList> getPage(Pageable pageable) {

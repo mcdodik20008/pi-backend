@@ -7,8 +7,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import pibackend.domain.booksubject.model.entity.BookSubject;
 
 public interface BookSubjectRepository extends JpaRepository<BookSubject, Long>, QuerydslPredicateExecutor<BookSubject> {
-
-    Page<BookSubject> findByIdContaining(Long id, Pageable pageable);
-
     Page<BookSubject> findBySubjectContainingIgnoreCase(String subject, Pageable pageable);
 }

@@ -16,11 +16,7 @@ public class BookCoverController {
     private final BookCoverService service;
 
     @GetMapping
-    public Page<BookCoverView> getPage(Pageable pageable,
-                                       @RequestParam(required = false) Long filterId) {
-        if (filterId != null) {
-            return service.getPageByIdLike(pageable, filterId);
-        }
+    public Page<BookCoverView> getPage(Pageable pageable) {
         return service.getPage(pageable);
     }
 

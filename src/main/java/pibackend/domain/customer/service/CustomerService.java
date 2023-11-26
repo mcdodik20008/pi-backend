@@ -30,8 +30,7 @@ public class CustomerService {
         PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         Page<CustomerViewList> byId = repository.findByIdContainingIgnoreCase(filter, pageable).map(mapper::toViewList);
         if (byId.hasContent()) return byId;
-        Page<CustomerViewList> byName = repository.findByNameContainingIgnoreCase(filter, pageable).map(mapper::toViewList);
-        return byName;
+        return repository.findByNameContainingIgnoreCase(filter, pageable).map(mapper::toViewList);
     }
 
     public Page<CustomerViewList> getPage(Pageable pageable) {
@@ -71,6 +70,7 @@ public class CustomerService {
     }
 
     public List<Customer> getList() {
+        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
         return repository.findAll();
     }
 

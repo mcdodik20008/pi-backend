@@ -17,13 +17,9 @@ public class BookSubjectController {
 
     @GetMapping
     public Page<BookSubjectView> getPage(Pageable pageable,
-                                         @RequestParam(required = false) Long filterId,
-                                         @RequestParam(required = false) String filterSubject) {
-        if (filterId != null) {
-            return service.getPageByIdLike(pageable, filterId);
-        }
-        if (filterSubject != null) {
-            return service.getPageBySubjectLike(pageable, filterSubject);
+                                         @RequestParam(required = false) String filter) {
+        if (filter != null) {
+            return service.getPageFiltered(pageable, filter);
         }
         return service.getPage(pageable);
     }

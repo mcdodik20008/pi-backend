@@ -26,14 +26,11 @@ public class AuthorService {
 
     private final AuthorMapper mapper;
 
-    public Page<AuthorViewReadList> getPageByIdLike(Pageable pageable, String id) {
+    public Page<AuthorViewReadList> getPageFiltered(Pageable pageable, String filter) {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.SELECT);
-        return repository.findByUuidContainingIgnoreCase(id, pageable).map(mapper::toViewReadList);
-    }
-
-    public Page<AuthorViewReadList> getPageByNameLike(Pageable pageable, String name) {
-        PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.SELECT);
-        return repository.findByNameContainingIgnoreCase(name, pageable).map(mapper::toViewReadList);
+        Page<AuthorViewReadList> byId = repository.findByUuidContainingIgnoreCase(filter, pageable).map(mapper::toViewReadList);
+        if (byId.hasContent()) return byId;
+        return repository.findByNameContainingIgnoreCase(filter, pageable).map(mapper::toViewReadList);
     }
 
     public Page<AuthorViewReadList> getPage(Pageable pageable) {
@@ -81,6 +78,7 @@ public class AuthorService {
     }
 
     public List<Author> getList() {
+        PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.SELECT);
         return repository.findAll();
     }
 }

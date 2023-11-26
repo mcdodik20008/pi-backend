@@ -4,10 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import pibackend.domain.auth.role.model.entity.Level;
+import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.bookcovers.model.entity.BookCover;
 import pibackend.domain.bookcovers.model.mapper.BookCoverMapper;
 import pibackend.domain.bookcovers.model.view.BookCoverView;
 import pibackend.domain.bookcovers.repository.BookCoverRepository;
+import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
 
@@ -20,36 +24,38 @@ public class BookCoverService {
 
     private final BookCoverMapper mapper;
 
-    public Page<BookCoverView> getPageByIdLike(Pageable pageable, Long id) {
-        return repository.findByIdContaining(id, pageable).map(mapper::toView);
-    }
-
     public Page<BookCoverView> getPage(Pageable pageable) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.SELECT);
         return repository.findAll(pageable).map(mapper::toView);
     }
 
     public BookCoverView getOne(Long id) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.SELECT);
         return mapper.toView(getObject(id));
     }
 
     private BookCover getObject(Long id) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Не найдена обложка с идентификатором: " + id));
     }
 
     public Long create(BookCoverView view) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.CUD);
         BookCover entity = mapper.toEntity(view);
         return repository.save(entity).getId();
     }
 
     public void update(Long id, BookCoverView view) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.CUD);
         BookCover entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);
         repository.save(entity);
     }
 
     public void delete(Long id) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.CUD);
         getObject(id);
         repository.deleteById(id);
     }
