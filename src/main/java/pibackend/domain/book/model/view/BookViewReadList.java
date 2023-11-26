@@ -2,6 +2,9 @@ package pibackend.domain.book.model.view;
 
 import lombok.Getter;
 import lombok.Setter;
+import pibackend.domain.author.model.view.AuthorViewReadList;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +19,7 @@ public class BookViewReadList {
     private String firstPublishDate;
 
     private String description;
+
+    private List<AuthorViewReadList> authors;
 
 }
