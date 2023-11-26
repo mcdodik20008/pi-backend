@@ -51,16 +51,18 @@ public class CustomerService {
                         new RuntimeException("Не найден клиент с идентификатором: " + id));
     }
 
-    public void create(@RequestBody CustomerView view) {
+    public CustomerViewList create(@RequestBody CustomerView view) {
         PrivilegeService.checkPrivilege(Registry.CLIENT, Level.CUD);
         var entity = mapper.toEntity(view);
         repository.save(entity);
+        return mapper.toViewList(entity);
     }
 
-    public void update(String id, @RequestBody CustomerView view) {
+    public CustomerViewList update(String id, @RequestBody CustomerView view) {
         PrivilegeService.checkPrivilege(Registry.CLIENT, Level.CUD);
         var entity = mapper.toEntity(getObject(id), view);
         repository.save(entity);
+        return mapper.toViewList(entity);
     }
 
     public void delete(String id) {

@@ -37,13 +37,13 @@ public class CustomerController {
     }
 
     @PostMapping
-    public void create(@RequestBody CustomerView view) {
-        service.create(view);
+    public CustomerViewList create(@RequestBody CustomerView view) {
+        return service.create(view);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody CustomerView view) {
-        service.update(id, view);
+    public CustomerViewList update(@PathVariable String id, @RequestBody CustomerView view) {
+        return service.update(id, view);
     }
 
     @DeleteMapping("/{id}")
