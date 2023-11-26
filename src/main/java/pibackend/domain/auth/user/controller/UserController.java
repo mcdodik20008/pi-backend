@@ -9,6 +9,7 @@ import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
+import pibackend.domain.auth.user.model.view.UserViewCreate;
 import pibackend.domain.auth.user.service.UserService;
 import pibackend.infrastructure.SecurityContext;
 import pibackend.infrastructure.export.UserExcelExporter;
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public Boolean registration(@RequestBody UserView user) {
+    public Boolean registration(@RequestBody UserViewCreate user) {
         return service.registration(user);
     }
 

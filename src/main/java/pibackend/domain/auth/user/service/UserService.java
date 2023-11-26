@@ -12,6 +12,7 @@ import pibackend.domain.auth.user.model.mapper.UserMapper;
 import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
+import pibackend.domain.auth.user.model.view.UserViewCreate;
 import pibackend.domain.auth.user.repository.UserRepository;
 
 import javax.transaction.Transactional;
@@ -62,7 +63,7 @@ public class UserService {
         repository.deleteByLogin(login);
     }
 
-    public Boolean registration(UserView view) {
+    public Boolean registration(UserViewCreate view) {
         var entity = mapper.toEntity(view);
         if (repository.existsByLogin(entity.getLogin())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Пользователь с таким логином уже существует.");
