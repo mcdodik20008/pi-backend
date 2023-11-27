@@ -28,9 +28,11 @@ public class UserService {
 
     private final UserMapper mapper;
 
-    public Page<UserView> getPage(Pageable pageable) {
-        return repository.findAll(pageable)
-                .map(mapper::toView);
+    public Page<UserView> getPage(Pageable pageable, String login) {
+        if (login != null) {
+            return repository.findByLoginContainingIgnoreCase(login, pageable).map(mapper::toView);
+        }
+        return repository.findAll(pageable).map(mapper::toView);
     }
 
     public List<User> getList() {

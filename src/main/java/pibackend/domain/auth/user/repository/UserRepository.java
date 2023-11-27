@@ -1,6 +1,8 @@
 package pibackend.domain.auth.user.repository;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import pibackend.domain.auth.user.model.entity.User;
@@ -13,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
     Optional<User> findByLogin(String login);
 
     void deleteByLogin(String login);
+
+    Page<User> findByLoginContainingIgnoreCase(String filter, Pageable pageable);
 }

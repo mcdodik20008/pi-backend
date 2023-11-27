@@ -29,8 +29,9 @@ public class UserController {
     private final UserService service;
 
     @GetMapping
-    public Page<UserView> getList(Pageable pageable) {
-        return service.getPage(pageable);
+    public Page<UserView> getList(Pageable pageable,
+                                  @RequestParam(required = false) String filter) {
+        return service.getPage(pageable, filter);
     }
 
     @Transactional
