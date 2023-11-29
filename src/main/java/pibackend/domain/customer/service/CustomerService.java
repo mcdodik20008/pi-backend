@@ -70,7 +70,7 @@ public class CustomerService {
     }
 
     public List<Customer> getList() {
-        PrivilegeService.checkPrivilege(Registry.CLIENT, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         return repository.findAll();
     }
 

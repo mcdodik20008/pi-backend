@@ -78,7 +78,7 @@ public class AuthorService {
     }
 
     public List<Author> getList() {
-        PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         return repository.findAll();
     }
 }

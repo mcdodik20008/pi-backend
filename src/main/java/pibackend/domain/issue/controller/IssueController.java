@@ -83,7 +83,7 @@ public class IssueController {
         var headerValue = "attachment; filename=issues_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
-        var issues = filter == null ? service.getList() : service.getFiltered(filter);
+        var issues = filter == null ? service.getList() : service.getListFiltered(filter);
         var excelExporter = new IssueExcelExporter(issues);
         excelExporter.export(response);
     }

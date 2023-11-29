@@ -61,8 +61,8 @@ public class IssueService {
         repository.deleteById(id);
     }
 
-    public List<Issue> getFiltered(String filter) {
-        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
+    public List<Issue> getListFiltered(String filter) {
+        PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         List<Issue> byCustomerName = repository.findByCustomerName(filter);
         if (byCustomerName.size() > 0) return byCustomerName;
         List<Issue> byBookTitle = repository.findByBookTitle(filter);
@@ -71,7 +71,7 @@ public class IssueService {
     }
 
     public List<Issue> getList() {
-        PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
+        PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         return repository.findAll();
     }
 

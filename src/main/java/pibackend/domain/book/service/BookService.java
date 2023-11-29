@@ -69,6 +69,7 @@ public class BookService {
     }
 
     public List<Book> getList() {
+        PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         return repository.findAll();
     }
 }
