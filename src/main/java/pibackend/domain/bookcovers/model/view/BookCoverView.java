@@ -2,7 +2,7 @@ package pibackend.domain.bookcovers.model.view;
 
 import lombok.Getter;
 import lombok.Setter;
-import pibackend.domain.book.model.view.BookViewReadList;
+import pibackend.domain.book.model.view.BookViewReadOne;
 
 @Getter
 @Setter
@@ -12,6 +12,6 @@ public class BookCoverView {
 
     private Integer coverFile;
 
-    private BookViewReadList book;
+    private BookViewReadOne book;
 
 }

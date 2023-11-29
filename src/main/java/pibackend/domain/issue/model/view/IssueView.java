@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
-import pibackend.domain.book.model.entity.Book;
+import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.customer.model.entity.Customer;
 
 @Getter
@@ -21,6 +21,6 @@ public class IssueView {
 
     private Customer customer;
 
-    private Book book;
+    private BookViewReadOne book;
 
 }
