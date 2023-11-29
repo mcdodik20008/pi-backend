@@ -5,12 +5,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import pibackend.domain.auth.role.model.entity.Level;
+import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.auth.user.model.entity.User;
 import pibackend.domain.auth.user.model.view.UserChangePassword;
 import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.model.view.UserViewCreate;
 import pibackend.domain.auth.user.service.UserService;
+import pibackend.infrastructure.PrivilegeService;
 import pibackend.infrastructure.SecurityContext;
 import pibackend.infrastructure.export.UserExcelExporter;
 
@@ -31,6 +34,7 @@ public class UserController {
     @GetMapping
     public Page<UserView> getList(Pageable pageable,
                                   @RequestParam(required = false) String filter) {
+        PrivilegeService.checkPrivilege(Registry.USER, Level.SELECT);
         return service.getPage(pageable, filter);
     }
 
@@ -43,11 +47,13 @@ public class UserController {
 
     @GetMapping("/{login}")
     public UserView getOne(@PathVariable String login) {
+        PrivilegeService.checkPrivilege(Registry.USER, Level.SELECT);
         return service.getOne(login);
     }
 
     @PostMapping("/registration")
     public Boolean registration(@RequestBody UserViewCreate user) {
+        PrivilegeService.checkPrivilege(Registry.USER, Level.CUD);
         return service.registration(user);
     }
 
@@ -58,22 +64,26 @@ public class UserController {
 
     @PatchMapping("/change_password_admin")
     public Boolean changePasswordAdmin(@RequestBody UserChangePasswordNoConfirmation view) {
+        PrivilegeService.checkPrivilege(Registry.USER, Level.CUD);
         return service.changePasswordAdmin(view);
     }
 
     @PutMapping("/{login}")
     public UserView update(@PathVariable String login, @RequestBody UserView view) {
+        PrivilegeService.checkPrivilege(Registry.USER, Level.CUD);
         service.update(login, view);
         return service.getOne(login);
     }
 
     @DeleteMapping("/{login}")
     public void delete(@PathVariable String login) {
+        PrivilegeService.checkPrivilege(Registry.USER, Level.CUD);
         service.delete(login);
     }
 
     @GetMapping("/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
+        PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
