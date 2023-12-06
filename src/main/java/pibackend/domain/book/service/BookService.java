@@ -39,7 +39,8 @@ public class BookService {
 
     public BookViewReadOne getOne(String id) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.SELECT);
-        return mapper.toViewReadOne(getObject(id));
+        Book book = getObject(id);
+        return mapper.toViewReadOne(book);
     }
 
     private Book getObject(String id) {

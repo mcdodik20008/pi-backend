@@ -6,7 +6,7 @@ import pibackend.domain.book.model.view.BookViewReadOne;
 
 @Getter
 @Setter
-public class BookCoverView {
+public class BookCoverViewReadOne {
 
     private Long id;
 

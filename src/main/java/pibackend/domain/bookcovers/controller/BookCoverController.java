@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import pibackend.domain.bookcovers.model.view.BookCoverView;
+
+import pibackend.domain.bookcovers.model.view.BookCoverViewReadList;
+import pibackend.domain.bookcovers.model.view.BookCoverViewReadOne;
 import pibackend.domain.bookcovers.service.BookCoverService;
 
 @CrossOrigin
@@ -16,23 +18,23 @@ public class BookCoverController {
     private final BookCoverService service;
 
     @GetMapping
-    public Page<BookCoverView> getPage(Pageable pageable) {
+    public Page<BookCoverViewReadList> getPage(Pageable pageable) {
         return service.getPage(pageable);
     }
 
     @GetMapping("/{id}")
-    public BookCoverView getOne(@PathVariable Long id) {
+    public BookCoverViewReadOne getOne(@PathVariable Long id) {
         return service.getOne(id);
     }
 
     @PostMapping
-    public BookCoverView create(@RequestBody BookCoverView view) {
+    public BookCoverViewReadOne create(@RequestBody BookCoverViewReadOne view) {
         Long id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public BookCoverView update(@PathVariable Long id, @RequestBody BookCoverView view) {
+    public BookCoverViewReadOne update(@PathVariable Long id, @RequestBody BookCoverViewReadOne view) {
         service.update(id, view);
         return service.getOne(id);
     }

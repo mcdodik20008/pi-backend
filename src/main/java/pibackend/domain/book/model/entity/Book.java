@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import pibackend.domain.author.model.entity.Author;
+import pibackend.domain.bookcovers.model.entity.BookCover;
 import pibackend.infrastructure.StringPrefixedSequenceIdGenerator;
 
 import javax.persistence.*;
@@ -44,5 +45,8 @@ public class Book {
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
     private List<Author> authors;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookCover> covers;
 
 }
