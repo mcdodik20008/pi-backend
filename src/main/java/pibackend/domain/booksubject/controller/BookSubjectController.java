@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import pibackend.domain.booksubject.model.view.BookSubjectView;
+
+import pibackend.domain.booksubject.model.view.BookSubjectViewReadList;
+import pibackend.domain.booksubject.model.view.BookSubjectViewReadOne;
 import pibackend.domain.booksubject.service.BookSubjectService;
 
 @CrossOrigin
@@ -16,8 +18,8 @@ public class BookSubjectController {
     private final BookSubjectService service;
 
     @GetMapping
-    public Page<BookSubjectView> getPage(Pageable pageable,
-                                         @RequestParam(required = false) String filter) {
+    public Page<BookSubjectViewReadList> getPage(Pageable pageable,
+            @RequestParam(required = false) String filter) {
         if (filter != null) {
             return service.getPageFiltered(pageable, filter);
         }
@@ -25,18 +27,18 @@ public class BookSubjectController {
     }
 
     @GetMapping("/{id}")
-    public BookSubjectView getOne(@PathVariable Long id) {
+    public BookSubjectViewReadOne getOne(@PathVariable Long id) {
         return service.getOne(id);
     }
 
     @PostMapping
-    public BookSubjectView create(@RequestBody BookSubjectView view) {
+    public BookSubjectViewReadOne create(@RequestBody BookSubjectViewReadOne view) {
         Long id = service.create(view);
         return service.getOne(id);
     }
 
     @PutMapping("/{id}")
-    public BookSubjectView update(@PathVariable Long id, @RequestBody BookSubjectView view) {
+    public BookSubjectViewReadOne update(@PathVariable Long id, @RequestBody BookSubjectViewReadOne view) {
         service.update(id, view);
         return service.getOne(id);
     }

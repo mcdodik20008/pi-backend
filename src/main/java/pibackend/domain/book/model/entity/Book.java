@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import pibackend.domain.author.model.entity.Author;
 import pibackend.domain.bookcovers.model.entity.BookCover;
+import pibackend.domain.booksubject.model.entity.BookSubject;
 import pibackend.infrastructure.StringPrefixedSequenceIdGenerator;
 
 import javax.persistence.*;
@@ -48,5 +49,8 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<BookCover> covers;
+
+    @OneToMany(mappedBy = "book")
+    private List<BookSubject> subjects;
 
 }

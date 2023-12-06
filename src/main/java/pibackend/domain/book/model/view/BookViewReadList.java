@@ -3,6 +3,8 @@ package pibackend.domain.book.model.view;
 import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.author.model.view.AuthorViewReadList;
+import pibackend.domain.bookcovers.model.view.BookCoverViewReadList;
+import pibackend.domain.booksubject.model.view.BookSubjectViewReadList;
 
 import java.util.List;
 
@@ -21,5 +23,9 @@ public class BookViewReadList {
     private String description;
 
     private List<AuthorViewReadList> authors;
+
+    private List<BookCoverViewReadList> covers;
+
+    private List<BookSubjectViewReadList> subjects;
 
 }
