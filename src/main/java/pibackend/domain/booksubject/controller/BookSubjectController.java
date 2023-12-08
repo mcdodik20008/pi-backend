@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
 import pibackend.domain.booksubject.model.view.BookSubjectViewReadList;
 import pibackend.domain.booksubject.model.view.BookSubjectViewReadOne;
 import pibackend.domain.booksubject.service.BookSubjectService;
@@ -19,7 +18,7 @@ public class BookSubjectController {
 
     @GetMapping
     public Page<BookSubjectViewReadList> getPage(Pageable pageable,
-            @RequestParam(required = false) String filter) {
+                                                 @RequestParam(required = false) String filter) {
         if (filter != null) {
             return service.getPageFiltered(pageable, filter);
         }

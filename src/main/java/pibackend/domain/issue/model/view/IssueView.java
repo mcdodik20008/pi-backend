@@ -1,11 +1,11 @@
 package pibackend.domain.issue.model.view;
 
-import java.time.LocalDate;
-
 import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.customer.model.entity.Customer;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter

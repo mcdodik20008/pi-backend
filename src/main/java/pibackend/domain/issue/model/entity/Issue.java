@@ -6,7 +6,6 @@ import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.customer.model.entity.Customer;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 
 @Getter

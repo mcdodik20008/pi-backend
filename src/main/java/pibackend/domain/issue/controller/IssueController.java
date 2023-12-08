@@ -1,19 +1,17 @@
 package pibackend.domain.issue.controller;
 
 import lombok.RequiredArgsConstructor;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.service.IssueService;
 import pibackend.infrastructure.export.IssueExcelExporter;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @CrossOrigin
 @RestController
@@ -34,7 +32,7 @@ public class IssueController {
 
     @GetMapping("/history")
     public Page<IssueView> getHistoryPage(Pageable pageable,
-                                   @RequestParam(required = false) String filter) {
+                                          @RequestParam(required = false) String filter) {
         if (filter != null) {
             return service.getHistoryPageFiltered(pageable, filter);
         }
@@ -43,7 +41,7 @@ public class IssueController {
 
     @GetMapping("/actual")
     public Page<IssueView> getActualPage(Pageable pageable,
-                                   @RequestParam(required = false) String filter) {
+                                         @RequestParam(required = false) String filter) {
         if (filter != null) {
             return service.getActualPageFiltered(pageable, filter);
         }

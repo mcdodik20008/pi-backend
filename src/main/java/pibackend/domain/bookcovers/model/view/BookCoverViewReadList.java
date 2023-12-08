@@ -9,6 +9,6 @@ public class BookCoverViewReadList {
 
     private Long id;
 
-    private Integer coverFile;
+    private String coverFile;
 
 }

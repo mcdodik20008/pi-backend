@@ -15,11 +15,13 @@ public interface BookMapper {
     BookViewReadList toViewReadList(Book entity);
 
     Book toEntity(BookViewReadList view);
+
     Book toEntity(BookViewReadOne view);
 
     Book toEntity(BookViewCreate view);
 
     Book toEntity(@MappingTarget Book entity, BookViewReadList view);
+
     Book toEntity(@MappingTarget Book entity, BookViewReadOne view);
 
 }

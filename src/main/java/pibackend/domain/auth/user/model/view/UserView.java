@@ -1,6 +1,5 @@
 package pibackend.domain.auth.user.model.view;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import pibackend.domain.auth.role.model.entity.Level;

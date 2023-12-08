@@ -43,7 +43,7 @@ public class BookService {
         return mapper.toViewReadOne(book);
     }
 
-    private Book getObject(String id) {
+    public Book getObject(String id) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->

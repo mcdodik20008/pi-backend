@@ -1,0 +1,4 @@
+ALTER TABLE book_cover
+ALTER COLUMN cover_file TYPE varchar(50),
+DROP COLUMN id,
+ADD COLUMN id SERIAL PRIMARY KEY;

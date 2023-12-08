@@ -10,10 +10,12 @@ import pibackend.domain.booksubject.model.view.BookSubjectViewReadOne;
 public interface BookSubjectMapper {
 
     BookSubjectViewReadOne toViewReadOne(BookSubject entity);
+
     BookSubjectViewReadList toViewReadList(BookSubject entity);
 
     BookSubject toEntity(BookSubjectViewReadOne view);
 
     BookSubject toEntity(@MappingTarget BookSubject entity, BookSubjectViewReadOne view);
+
     BookSubject toEntity(@MappingTarget BookSubject entity, BookSubjectViewReadList view);
 }

@@ -12,9 +12,8 @@ import pibackend.domain.issue.model.view.IssueView;
 import pibackend.domain.issue.repository.IssueRepository;
 import pibackend.infrastructure.PrivilegeService;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional

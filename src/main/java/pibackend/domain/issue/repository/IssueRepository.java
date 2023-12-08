@@ -1,12 +1,12 @@
 package pibackend.domain.issue.repository;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import pibackend.domain.issue.model.entity.Issue;
+
+import java.util.List;
 
 public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPredicateExecutor<Issue> {
 
@@ -37,5 +37,5 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
     Page<Issue> findByBookUuidAndDateOfReturnIsNull(String filter, Pageable pageable);
 
     Page<Issue> findByDateOfReturnIsNull(Pageable pageable);
-    
+
 }

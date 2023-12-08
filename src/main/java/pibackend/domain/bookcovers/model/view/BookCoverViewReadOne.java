@@ -10,7 +10,7 @@ public class BookCoverViewReadOne {
 
     private Long id;
 
-    private Integer coverFile;
+    private String coverFile;
 
     private BookViewReadOne book;
 

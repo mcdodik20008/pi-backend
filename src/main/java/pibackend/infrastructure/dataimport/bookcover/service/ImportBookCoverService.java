@@ -47,7 +47,7 @@ public class ImportBookCoverService {
                             cover.setId((long) currentCell.getNumericCellValue());
                             break;
                         case 1:
-                            cover.setCoverFile((int) currentCell.getNumericCellValue());
+                            cover.setCoverFile(currentCell.getStringCellValue());
                             break;
                         case 2:
                             cover.setBook(bookRepository.findById(formatter.formatCellValue(currentCell)).orElse(null));

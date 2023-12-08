@@ -24,7 +24,7 @@ public class CustomerController {
 
     @GetMapping
     public Page<CustomerViewList> getPage(Pageable pageable,
-            @RequestParam(required = false) String filter) {
+                                          @RequestParam(required = false) String filter) {
         if (filter != null) {
             return service.getPageFiltered(pageable, filter);
         }

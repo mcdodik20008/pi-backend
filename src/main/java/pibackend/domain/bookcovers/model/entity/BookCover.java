@@ -12,11 +12,12 @@ import javax.persistence.*;
 public class BookCover {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "cover_file", nullable = false)
-    private Integer coverFile;
+    private String coverFile;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
