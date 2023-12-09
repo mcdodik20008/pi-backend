@@ -46,4 +46,13 @@ public class SecurityContext {
     public void removeUser(String clientAuthCode) {
         authUsers.remove(clientAuthCode);
     }
+
+    public void removeUserByLogin(String login) {
+        for (String key : authUsers.keySet()) {
+            if (authUsers.get(key).getSecond().getLogin().equals(login)){
+                authUsers.remove(key);
+            }
+        }
+
+    }
 }

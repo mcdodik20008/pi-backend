@@ -66,6 +66,7 @@ public class BookCoverService {
     }
 
     public String create(String bookId, MultipartFile file) throws IOException {
+        PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.CUD);
         var internalPath = System.getProperty("user.dir") +
                 "/src/main/resources/images/";
 

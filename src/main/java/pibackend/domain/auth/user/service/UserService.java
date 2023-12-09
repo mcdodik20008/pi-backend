@@ -2,6 +2,7 @@ package pibackend.domain.auth.user.service;
 
 import com.google.common.hash.Hashing;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import pibackend.domain.auth.user.model.view.UserChangePasswordNoConfirmation;
 import pibackend.domain.auth.user.model.view.UserView;
 import pibackend.domain.auth.user.model.view.UserViewCreate;
 import pibackend.domain.auth.user.repository.UserRepository;
+import pibackend.infrastructure.SecurityContext;
 
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +25,9 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
+
+    @Autowired
+    private SecurityContext securityContext;
 
     private final UserRepository repository;
 
@@ -56,6 +61,9 @@ public class UserService {
 
     public void update(String login, UserView view) {
         User entity = mapper.toEntity(getObject(login), view);
+        if (SecurityContext.currentUser.getLogin().equals(entity.getLogin())){
+            securityContext.removeUserByLogin(login);
+        }
         entity.setLogin(login);
         repository.save(entity);
     }
