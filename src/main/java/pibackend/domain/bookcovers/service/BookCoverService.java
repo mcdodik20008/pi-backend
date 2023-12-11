@@ -47,11 +47,13 @@ public class BookCoverService {
         PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.SELECT);
 
         var entity = getObject(id);
-        var path = "images/" + entity.getCoverFile();
+//        var path = "images/" + entity.getCoverFile();
+        var path = System.getProperty("user.dir") +
+                "/src/main/resources/images/" + entity.getCoverFile();
         var contentType = path.split("\\.")[1].equals("jpg") ? MediaType.IMAGE_JPEG : MediaType.IMAGE_PNG;
-        var resource = new ClassPathResource(path);
+//        var resource = new ClassPathResource(path);
 
-        InputStream in = resource.getInputStream();
+        InputStream in = Files.newInputStream(Paths.get(path));
 
         return ResponseEntity.ok()
                 .contentType(contentType)
