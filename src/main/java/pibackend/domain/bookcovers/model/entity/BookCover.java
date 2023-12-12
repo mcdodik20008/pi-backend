@@ -19,6 +19,9 @@ public class BookCover {
     @Column(name = "cover_file", nullable = false)
     private String coverFile;
 
+    @Column(name = "path", nullable = false)
+    private String path;
+
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;

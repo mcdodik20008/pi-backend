@@ -77,7 +77,7 @@ public class BookCoverService {
         try {
             Files.write(path, file.getBytes());
             var entity = new BookCover();
-            entity.setCoverFile(newFileName);
+            entity.setPath(newFileName);
             entity.setBook(bookService.getObject(bookId));
             repository.save(entity);
             return "success";
