@@ -20,6 +20,8 @@ public interface BookMapper {
 
     Book toEntity(BookViewCreate view);
 
+    Book toEntity(@MappingTarget Book entity, BookViewCreate view);
+
     Book toEntity(@MappingTarget Book entity, BookViewReadList view);
 
     Book toEntity(@MappingTarget Book entity, BookViewReadOne view);
