@@ -64,7 +64,7 @@ public class AuthorService {
         return mapper.toViewCreate(repository.save(entity));
     }
 
-    public void update(String id, AuthorViewReadOne view) {
+    public void update(String id, AuthorViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.CUD);
         Author entity = mapper.toEntity(getObject(id), view);
         entity.setUuid(id);
