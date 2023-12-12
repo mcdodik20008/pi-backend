@@ -58,10 +58,10 @@ public class IssueService {
         LocalDate oldDate = getObject(id).getReturnUntil();
         Issue entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);
-        if (entity.getWasUpdated()){
+        if (!entity.getWasUpdated() && !entity.getReturnUntil().equals(oldDate)){
             entity.setReturnUntil(oldDate);
+            entity.setWasUpdated(true);
         }
-        entity.setWasUpdated(true);
         repository.save(entity);
     }
 
