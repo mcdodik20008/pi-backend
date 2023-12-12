@@ -17,6 +17,7 @@ import pibackend.domain.book.repository.BookRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,19 +58,23 @@ public class BookService {
 
     public String create(BookViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
-        List<String> list = view.getAuthors().stream().map(x -> x.getId()).toList();
-        List<Author> authors = authorRepository.findAllById(list);
         Book entity = mapper.toEntity(view);
-        entity.setAuthors(authors);
+        for (var auth : view.getAuthors()) {
+            List<Author> authors = entity.getAuthors();
+            authors.add(authorRepository.findById(auth.getUuid()).get());
+        }
         return repository.save(entity).getUuid();
     }
 
     public void update(String id, BookViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(getObject(id), view);
-        List<String> list = view.getAuthors().stream().map(x -> x.getId()).toList();
-        List<Author> authors = authorRepository.findAllById(list);
-        entity.setAuthors(authors);
+        entity.setAuthors(new ArrayList<>());
+        for (var auth : view.getAuthors()) {
+            List<Author> authors = entity.getAuthors();
+            authors.add(authorRepository.findById(auth.getUuid()).get());
+        }
+
         entity.setUuid(id);
         repository.save(entity);
     }
