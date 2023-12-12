@@ -46,7 +46,7 @@ public class IssueService {
 
     public Long create(IssueView view) {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
-        if (repository.countActiveIssue(view.getCustomer().getId()) > 5){
+        if (repository.countActiveIssue(view.getCustomer().getId()) > 5) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Невозможно выдать. У клиента 5 активных выдач");
         }
         Issue entity = mapper.toEntity(view);
@@ -58,9 +58,12 @@ public class IssueService {
         LocalDate oldDate = getObject(id).getReturnUntil();
         Issue entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);
-        if (!entity.getWasUpdated() && !entity.getReturnUntil().equals(oldDate)){
-            entity.setReturnUntil(oldDate);
-            entity.setWasUpdated(true);
+        if (!entity.getReturnUntil().equals(oldDate)) {
+            if (entity.getWasUpdated()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Невозможно изменить дату выдачи. Дата выдачи уже была изменена.");
+            } else {
+                entity.setWasUpdated(true);
+            }
         }
         repository.save(entity);
     }
