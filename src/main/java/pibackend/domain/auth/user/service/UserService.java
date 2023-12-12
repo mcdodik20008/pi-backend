@@ -51,7 +51,7 @@ public class UserService {
     public User getObject(String login) {
         return repository.findByLogin(login)
                 .orElseThrow(() ->
-                        new RuntimeException("Не найден пользователь с логином: " + login));
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Не найден пользователь с логином: " + login));
     }
 
     public String create(UserView view) {

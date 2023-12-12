@@ -1,5 +1,7 @@
 package pibackend.infrastructure;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.auth.user.model.entity.User;
@@ -14,6 +16,6 @@ public class PrivilegeService {
                 return;
             }
         }
-        throw new RuntimeException("Нет привилегий");
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Нет привилегий");
     }
 }

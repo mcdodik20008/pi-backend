@@ -3,7 +3,9 @@ package pibackend.domain.book.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.author.model.entity.Author;
@@ -53,7 +55,7 @@ public class BookService {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Не найдена книга с идентификатором: " + id));
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Не найдена книга с идентификатором: " + id));
     }
 
     public String create(BookViewCreate view) {

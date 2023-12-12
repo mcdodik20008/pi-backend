@@ -3,7 +3,9 @@ package pibackend.domain.booksubject.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.booksubject.model.entity.BookSubject;
@@ -43,7 +45,7 @@ public class BookSubjectService {
         PrivilegeService.checkPrivilege(Registry.BOOK_SUBJECT, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Не найдена тема книги с идентификатором: " + id));
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Не найдена тема книги с идентификатором: " + id));
     }
 
     public Long create(BookSubjectViewReadOne view) {

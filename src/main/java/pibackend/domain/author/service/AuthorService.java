@@ -3,7 +3,9 @@ package pibackend.domain.author.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
 import pibackend.domain.author.model.entity.Author;
@@ -47,7 +49,7 @@ public class AuthorService {
         PrivilegeService.checkPrivilege(Registry.AUTHOR, Level.SELECT);
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Не найден автор с идентификатором: " + id));
+                        new ResponseStatusException(HttpStatus.CONFLICT, "Не найден автор с идентификатором: " + id));
     }
 
     public AuthorViewCreate create(AuthorViewCreate view) {
