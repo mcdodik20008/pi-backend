@@ -2,7 +2,6 @@ package pibackend.domain.book.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import pibackend.domain.author.model.entity.Author;
@@ -42,8 +41,8 @@ public class Book {
     @Column(name = "description")
     private String description;
 
-    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
-    @ManyToMany(cascade = CascadeType.ALL)
+
+    @ManyToMany
     @JoinTable(name = "book_author",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id")})
