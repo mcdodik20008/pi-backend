@@ -61,9 +61,11 @@ public class BookService {
     public String create(BookViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(view);
-        for (var auth : view.getAuthors()) {
-            List<Author> authors = entity.getAuthors();
-            authors.add(authorRepository.findById(auth.getUuid()).get());
+        if (view.getAuthors() != null) {
+            for (var auth : view.getAuthors()) {
+                List<Author> authors = entity.getAuthors();
+                authors.add(authorRepository.findById(auth.getUuid()).get());
+            }
         }
         return repository.save(entity).getUuid();
     }
@@ -71,12 +73,13 @@ public class BookService {
     public void update(String id, BookViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(getObject(id), view);
-        entity.setAuthors(new ArrayList<>());
-        for (var auth : view.getAuthors()) {
-            List<Author> authors = entity.getAuthors();
-            authors.add(authorRepository.findById(auth.getUuid()).get());
+        if (view.getAuthors() != null) {
+            entity.setAuthors(new ArrayList<>());
+            for (var auth : view.getAuthors()) {
+                List<Author> authors = entity.getAuthors();
+                authors.add(authorRepository.findById(auth.getUuid()).get());
+            }
         }
-
         entity.setUuid(id);
         repository.save(entity);
     }
