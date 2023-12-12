@@ -18,9 +18,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
 
     List<Issue> findByCustomerName(String name);
 
-    List<Issue> findByBookTitle(String title);
+    List<Issue> findByBookTitleOrderByCustomerNameAsc(String title);
 
-    List<Issue> findByBookUuid(String filter);
+    List<Issue> findByBookUuidOrderByCustomerNameAsc(String filter);
 
     Page<Issue> findByCustomerNameAndDateOfReturnIsNotNull(String filter, Pageable pageable);
 

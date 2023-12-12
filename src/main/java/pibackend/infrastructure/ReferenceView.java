@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReferenceView {
-    private Long id;
+    private String id;
 }

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
+import pibackend.domain.author.model.entity.Author;
+import pibackend.domain.author.repository.AuthorRepository;
 import pibackend.domain.book.model.entity.Book;
 import pibackend.domain.book.model.mapper.BookMapper;
 import pibackend.domain.book.model.view.BookViewCreate;
@@ -21,6 +23,8 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class BookService {
+
+    private final AuthorRepository authorRepository;
 
     private final BookRepository repository;
 
@@ -53,13 +57,19 @@ public class BookService {
 
     public String create(BookViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
+        List<String> list = view.getAuthors().stream().map(x -> x.getId()).toList();
+        List<Author> authors = authorRepository.findAllById(list);
         Book entity = mapper.toEntity(view);
+        entity.setAuthors(authors);
         return repository.save(entity).getUuid();
     }
 
     public void update(String id, BookViewCreate view) {
         PrivilegeService.checkPrivilege(Registry.BOOK, Level.CUD);
         Book entity = mapper.toEntity(getObject(id), view);
+        List<String> list = view.getAuthors().stream().map(x -> x.getId()).toList();
+        List<Author> authors = authorRepository.findAllById(list);
+        entity.setAuthors(authors);
         entity.setUuid(id);
         repository.save(entity);
     }

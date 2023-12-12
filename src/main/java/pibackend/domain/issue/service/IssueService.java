@@ -64,9 +64,9 @@ public class IssueService {
         PrivilegeService.checkPrivilege(Registry.REPORT, Level.SELECT);
         List<Issue> byCustomerName = repository.findByCustomerName(filter);
         if (!byCustomerName.isEmpty()) return byCustomerName;
-        List<Issue> byBookTitle = repository.findByBookTitle(filter);
+        List<Issue> byBookTitle = repository.findByBookTitleOrderByCustomerNameAsc(filter);
         if (!byBookTitle.isEmpty()) return byBookTitle;
-        return repository.findByBookUuid(filter);
+        return repository.findByBookUuidOrderByCustomerNameAsc(filter);
     }
 
     public List<Issue> getList() {
