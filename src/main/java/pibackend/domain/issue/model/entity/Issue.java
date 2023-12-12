@@ -35,4 +35,6 @@ public class Issue {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    @Column(name = "was_updated")
+    private Boolean wasUpdated;
 }

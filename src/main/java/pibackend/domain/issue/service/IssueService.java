@@ -15,6 +15,7 @@ import pibackend.domain.issue.repository.IssueRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -45,14 +46,22 @@ public class IssueService {
 
     public Long create(IssueView view) {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
+        if (repository.countActiveIssue(view.getCustomer().getId()) > 5){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Невозможно выдать. У клиента 5 активных выдач");
+        }
         Issue entity = mapper.toEntity(view);
         return repository.save(entity).getId();
     }
 
     public void update(Long id, IssueView view) {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.CUD);
+        LocalDate oldDate = getObject(id).getReturnUntil();
         Issue entity = mapper.toEntity(getObject(id), view);
         entity.setId(id);
+        if (entity.getWasUpdated()){
+            entity.setReturnUntil(oldDate);
+        }
+        entity.setWasUpdated(true);
         repository.save(entity);
     }
 
@@ -87,9 +96,9 @@ public class IssueService {
 
     public Page<IssueView> getHistoryPageFiltered(Pageable pageable, String filter) {
         PrivilegeService.checkPrivilege(Registry.ISSUES, Level.SELECT);
-        Page<IssueView> byCustomerName = repository.findByCustomerNameAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
+        Page<IssueView> byCustomerName = repository.findByCustomerNameAndDateOfReturnIsNotNullOrderByDateOfIssue(filter, pageable).map(mapper::toView);
         if (byCustomerName.hasContent()) return byCustomerName;
-        Page<IssueView> byBookTitle = repository.findByBookTitleAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
+        Page<IssueView> byBookTitle = repository.findByBookTitleAndDateOfReturnIsNotNullOrderByDateOfIssue(filter, pageable).map(mapper::toView);
         if (byBookTitle.hasContent()) return byBookTitle;
         return repository.findByBookUuidAndDateOfReturnIsNotNull(filter, pageable).map(mapper::toView);
     }

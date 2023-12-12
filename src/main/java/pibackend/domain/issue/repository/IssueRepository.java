@@ -3,6 +3,7 @@ package pibackend.domain.issue.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import pibackend.domain.issue.model.entity.Issue;
 
@@ -22,9 +23,9 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
 
     List<Issue> findByBookUuidOrderByCustomerNameAsc(String filter);
 
-    Page<Issue> findByCustomerNameAndDateOfReturnIsNotNull(String filter, Pageable pageable);
+    Page<Issue> findByCustomerNameAndDateOfReturnIsNotNullOrderByDateOfIssue(String filter, Pageable pageable);
 
-    Page<Issue> findByBookTitleAndDateOfReturnIsNotNull(String filter, Pageable pageable);
+    Page<Issue> findByBookTitleAndDateOfReturnIsNotNullOrderByDateOfIssue(String filter, Pageable pageable);
 
     Page<Issue> findByBookUuidAndDateOfReturnIsNotNull(String filter, Pageable pageable);
 
@@ -37,5 +38,10 @@ public interface IssueRepository extends JpaRepository<Issue, Long>, QuerydslPre
     Page<Issue> findByBookUuidAndDateOfReturnIsNull(String filter, Pageable pageable);
 
     Page<Issue> findByDateOfReturnIsNull(Pageable pageable);
+
+    @Query("""
+        SELECT count (*) from issue i where i.customer.id = ?1 and i.dateOfReturn is null
+        """)
+    Integer countActiveIssue(String customerId);
 
 }
