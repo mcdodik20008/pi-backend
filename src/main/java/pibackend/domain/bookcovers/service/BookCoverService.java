@@ -49,7 +49,7 @@ public class BookCoverService {
 
         var entity = getObject(id);
 
-        var path =  entity.getPath();
+        var path = entity.getPath();
         var contentType = path.split("\\.")[1].equals("jpg") ? MediaType.IMAGE_JPEG : MediaType.IMAGE_PNG;
 
         InputStream in = Files.newInputStream(Paths.get(path));
@@ -66,18 +66,18 @@ public class BookCoverService {
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Не найдена обложка с идентификатором: " + id));
     }
 
-    public String create(String bookId, MultipartFile file) throws IOException {
+    public String create(String bookId, String fileName, MultipartFile file) throws IOException {
         PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.CUD);
         var newFileName = "/" + UUID.randomUUID() +
                 "." +
                 FilenameUtils.getExtension(file.getOriginalFilename());
 
-        var path = Paths.get(newFileName);
+        var path = Paths.get("/app" + newFileName);
 
         try {
             Files.write(path, file.getBytes());
             var entity = new BookCover();
-            entity.setCoverFile(file.getName());
+            entity.setCoverFile(fileName);
             entity.setPath(path.toString());
             entity.setBook(bookService.getObject(bookId));
             repository.save(entity);

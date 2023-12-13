@@ -32,8 +32,8 @@ public class BookCoverController {
     }
 
     @PostMapping(value = "/add/{bookId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String create(@PathVariable String bookId, @RequestParam("image") MultipartFile file) throws IOException {
-        return service.create(bookId, file);
+    public String create(@PathVariable String bookId, @RequestParam String fileName, @RequestParam("image") MultipartFile file) throws IOException {
+        return service.create(bookId, fileName, file);
     }
 
 //    @PutMapping("/{id}")
