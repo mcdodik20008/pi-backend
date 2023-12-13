@@ -16,6 +16,7 @@ import pibackend.domain.book.model.view.BookViewCreate;
 import pibackend.domain.book.model.view.BookViewReadList;
 import pibackend.domain.book.model.view.BookViewReadOne;
 import pibackend.domain.book.repository.BookRepository;
+import pibackend.domain.booksubject.service.BookSubjectService;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
@@ -27,8 +28,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
 
-    private final AuthorRepository authorRepository;
+    private final BookSubjectService bookSubjectService;
 
+    private final AuthorRepository authorRepository;
     private final BookRepository repository;
 
     private final BookMapper mapper;
@@ -67,7 +69,9 @@ public class BookService {
                 authors.add(authorRepository.findById(auth.getUuid()).get());
             }
         }
-        return repository.save(entity).getUuid();
+        String bookId = repository.save(entity).getUuid();
+        bookSubjectService.saveAll(bookId, view.getSubjects());
+        return bookId;
     }
 
     public void update(String id, BookViewCreate view) {

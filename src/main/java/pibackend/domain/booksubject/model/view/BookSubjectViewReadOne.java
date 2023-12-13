@@ -2,7 +2,7 @@ package pibackend.domain.booksubject.model.view;
 
 import lombok.Getter;
 import lombok.Setter;
-import pibackend.domain.book.model.view.BookViewReadOne;
+import pibackend.infrastructure.ReferenceView;
 
 @Getter
 @Setter
@@ -12,6 +12,6 @@ public class BookSubjectViewReadOne {
 
     private String subject;
 
-    private BookViewReadOne book;
+    private ReferenceView book;
 
 }

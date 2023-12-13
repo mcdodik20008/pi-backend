@@ -14,7 +14,7 @@ public class MapperBeanDefinitionRegistrar implements BeanDefinitionRegistryPost
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {
-        Reflections scanner = new Reflections("pibackend.domain");
+        Reflections scanner = new Reflections();
         List<Class<?>> mappers = scanner.getTypesAnnotatedWith(Mapper.class).stream().filter(x -> !x.isInterface()).toList();
         for (Class<?> mapper : mappers) {
             GenericBeanDefinition beanDefinition = new GenericBeanDefinition();

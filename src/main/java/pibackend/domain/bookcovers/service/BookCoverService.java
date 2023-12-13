@@ -49,7 +49,7 @@ public class BookCoverService {
 
         var entity = getObject(id);
 
-        var path =  entity.getCoverFile();
+        var path =  entity.getPath();
         var contentType = path.split("\\.")[1].equals("jpg") ? MediaType.IMAGE_JPEG : MediaType.IMAGE_PNG;
 
         InputStream in = Files.newInputStream(Paths.get(path));
@@ -68,7 +68,7 @@ public class BookCoverService {
 
     public String create(String bookId, MultipartFile file) throws IOException {
         PrivilegeService.checkPrivilege(Registry.BOOK_COVERS, Level.CUD);
-        var newFileName = "/app/" + UUID.randomUUID() +
+        var newFileName = "/" + UUID.randomUUID() +
                 "." +
                 FilenameUtils.getExtension(file.getOriginalFilename());
 
@@ -77,7 +77,8 @@ public class BookCoverService {
         try {
             Files.write(path, file.getBytes());
             var entity = new BookCover();
-            entity.setPath(newFileName);
+            entity.setCoverFile(file.getName());
+            entity.setPath(path.toString());
             entity.setBook(bookService.getObject(bookId));
             repository.save(entity);
             return "success";

@@ -15,6 +15,8 @@ public interface BookSubjectMapper {
 
     BookSubject toEntity(BookSubjectViewReadOne view);
 
+    BookSubject toEntity(BookSubjectViewReadList view);
+
     BookSubject toEntity(@MappingTarget BookSubject entity, BookSubjectViewReadOne view);
 
     BookSubject toEntity(@MappingTarget BookSubject entity, BookSubjectViewReadList view);

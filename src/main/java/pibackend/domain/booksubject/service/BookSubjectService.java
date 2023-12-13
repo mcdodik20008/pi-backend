@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pibackend.domain.auth.role.model.entity.Level;
 import pibackend.domain.auth.role.model.entity.Registry;
+import pibackend.domain.book.model.entity.Book;
+import pibackend.domain.book.repository.BookRepository;
 import pibackend.domain.booksubject.model.entity.BookSubject;
 import pibackend.domain.booksubject.model.mapper.BookSubjectMapper;
 import pibackend.domain.booksubject.model.view.BookSubjectViewReadList;
@@ -16,6 +18,8 @@ import pibackend.domain.booksubject.repository.BookSubjectRepository;
 import pibackend.infrastructure.PrivilegeService;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -25,6 +29,7 @@ public class BookSubjectService {
     private final BookSubjectRepository repository;
 
     private final BookSubjectMapper mapper;
+    private final BookRepository bookRepository;
 
     public Page<BookSubjectViewReadList> getPageFiltered(Pageable pageable, String filter) {
         PrivilegeService.checkPrivilege(Registry.BOOK_SUBJECT, Level.SELECT);
@@ -52,6 +57,14 @@ public class BookSubjectService {
         PrivilegeService.checkPrivilege(Registry.BOOK_SUBJECT, Level.CUD);
         BookSubject entity = mapper.toEntity(view);
         return repository.save(entity).getId();
+    }
+
+    public List<BookSubject> saveAll(String bookId, List<BookSubjectViewReadList> subjects) {
+        PrivilegeService.checkPrivilege(Registry.BOOK_SUBJECT, Level.CUD);
+        Book book = bookRepository.findById(bookId).get();
+        Stream<BookSubject> stream = subjects.stream().map(mapper::toEntity);
+        stream.forEach(x -> x.setBook(book));
+        return repository.saveAll(stream.toList());
     }
 
     public void update(Long id, BookSubjectViewReadOne view) {

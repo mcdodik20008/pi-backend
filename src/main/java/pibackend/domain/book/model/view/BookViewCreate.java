@@ -2,6 +2,7 @@ package pibackend.domain.book.model.view;
 
 import lombok.Getter;
 import lombok.Setter;
+import pibackend.domain.booksubject.model.view.BookSubjectViewReadList;
 import pibackend.infrastructure.ReferenceView;
 
 import java.util.List;
@@ -22,6 +23,6 @@ public class BookViewCreate {
 
     private List<ReferenceView> covers;
 
-    private List<ReferenceView> subjects;
+    private List<BookSubjectViewReadList> subjects;
 
 }
