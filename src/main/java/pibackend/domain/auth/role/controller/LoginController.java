@@ -33,7 +33,6 @@ public class LoginController {
                 .toString().equals(user.get().getPassword())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ошибка авторизации. Проверьте логин или пароль");
         }
-
         String uuid = UUID.randomUUID().toString();
         context.addLoginUser(uuid, user.get());
         return uuid;
